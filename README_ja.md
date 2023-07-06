@@ -2,7 +2,7 @@
 
 <h4 align="center">
     <p>
-        <a href="https://github.com/FookieMonster/transformer-lm">English</a> |
+        <a href="https://github.com/FookieMonster/transformer-lm-japanese">English</a> |
         <b>日本語</b>
     <p>
 </h4>
@@ -131,4 +131,4 @@ python3 main.py --workdir=$HOME/logs/japanese_0.1b_v1 --config=configs/japanese_
 
 ### Cloud TPUによるトレーニング手順（Googleクラウドストレージ版）
 
-ワークディレクトリやデータセットのディレクトリをGCSにする場合のトレーニング手順は[こちら](https://github.com/FookieMonster/transformer-lm/edit/main/docs/train_with_gcs.md)を参照
+ワークディレクトリやデータセットのディレクトリをGCSにする場合のトレーニング手順は[こちら](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/docs/train_with_gcs.md)を参照
