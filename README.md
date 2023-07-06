@@ -129,4 +129,4 @@ python3 main.py --workdir=$HOME/logs/japanese_0.1b_v1 --config=configs/japanese_
 
 ### How to run on Cloud TPUs (Google Cloud Storage)
 
-For the training procedure when setting the working directory and dataset directory to GCS, refer to [this](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/docs/train_with_gcs.md)).
+For the training procedure when setting the working directory and dataset directory to GCS, refer to [this](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/docs/train_with_gcs.md).
