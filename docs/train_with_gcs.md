@@ -128,7 +128,7 @@ gcloud compute tpus tpu-vm ssh my-tpu-vm --zone=us-central1-a
 
 ```
 git clone -b 1.0.0.RC1 https://github.com/FookieMonster/transformer-lm-japanese
-cd ./transformer_lm
+cd ./transformer-lm-japanese/transformer_lm
 pip install -r requirements.txt
 pip install "jax[tpu]==0.3.2" -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
 ```

@@ -2,7 +2,7 @@
 
 <h4 align="center">
     <p>
-        <a href="https://github.com/FookieMonster/transformer-lm">English</a> |
+        <a href="https://github.com/FookieMonster/transformer-lm-japanese">English</a> |
         <b>日本語</b>
     <p>
 </h4>
@@ -116,7 +116,7 @@ Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-1043-gcp x86_64)
 
 ```
 git clone -b 1.0.0.RC1 https://github.com/FookieMonster/transformer-lm-japanese
-cd ./transformer_lm
+cd ./transformer-lm-japanese/transformer_lm
 pip install -r requirements.txt
 pip install "jax[tpu]==0.3.2" -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
 ```
@@ -131,4 +131,4 @@ python3 main.py --workdir=$HOME/logs/japanese_0.1b_v1 --config=configs/japanese_
 
 ### Cloud TPUによるトレーニング手順（Googleクラウドストレージ版）
 
-ワークディレクトリやデータセットのディレクトリをGCSにする場合のトレーニング手順は[こちら](https://github.com/FookieMonster/transformer-lm/edit/main/docs/train_with_gcs.md)を参照
+ワークディレクトリやデータセットのディレクトリをGCSにする場合のトレーニング手順は[こちら](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/docs/train_with_gcs.md)を参照
