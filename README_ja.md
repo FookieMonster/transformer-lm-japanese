@@ -129,6 +129,8 @@ python3
 >>> tfds.load('wiki40b/ja')
 ```
 
+（cc100は数百GBのサイズがあります。cc100でトレーニングしたい場合、[こちら](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/docs/train_with_gcs.md)の手順でGCS上にデータセットを作成して下さい）
+
 TensorBoardのイベントログやチェックポイントが保存されるワークディレクトリと、  
 設定ファイルを指定してトレーニングを開始します。
 
