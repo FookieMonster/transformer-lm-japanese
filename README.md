@@ -127,6 +127,7 @@ python3
 >>> tfds.load('lm1b')
 >>> tfds.load('wiki40b/ja')
 ```
+The cc100 dataset requires several hundred GB of disk space. If you want to train with the cc100 dataset, please create the dataset on Google Cloud Storage following the procedures in [this](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/docs/train_with_gcs.md) document.
 
 Start training by specifying the working directory, where TensorBoard event logs and checkpoints are saved, and the configuration file.
 
