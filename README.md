@@ -3,7 +3,7 @@
 <h4 align="center">
     <p>
         <b>English</b> |
-        <a href="https://github.com/FookieMonster/transformer-lm/blob/main/README_ja.md">日本語</a>
+        <a href="https://github.com/FookieMonster/transformer-lm-japanese/blob/main/README_ja.md">日本語</a>
     <p>
 </h4>
 
@@ -129,4 +129,4 @@ python3 main.py --workdir=$HOME/logs/japanese_0.1b_v1 --config=configs/japanese_
 
 ### How to run on Cloud TPUs (Google Cloud Storage)
 
-For the training procedure when setting the working directory and dataset directory to GCS, refer to [this](https://github.com/FookieMonster/transformer-lm/edit/main/docs/train_with_gcs.md).
+For the training procedure when setting the working directory and dataset directory to GCS, refer to [this](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/docs/train_with_gcs.md)).
