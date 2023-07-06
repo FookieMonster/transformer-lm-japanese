@@ -27,14 +27,17 @@ def get_config():
   # Vocabulary size if `vocab_path` is not given.
   config.vocab_size = 30_000
 
-  config.max_corpus_chars = 10**7
+  config.max_corpus_chars = (10**6) * 400
+
+  config.spm_train_options = "--character_coverage=0.9995 --byte_fallback=true"
 
   # Name of TFDS translation dataset to use.
-  config.dataset_name = "lm1b"
+  config.dataset_name = "wiki40b/ja"
+  config.train_split = "train"
 
   # Optional name of TFDS translation dataset to use for evaluation.
-  config.eval_dataset_name = "lm1b"
-  config.eval_split = "test"
+  config.eval_dataset_name = "wiki40b/ja"
+  config.eval_split = "validation"
 
   # Per device batch size for training.
   config.per_device_batch_size = 32
@@ -70,27 +73,27 @@ def get_config():
   config.weight_decay = 0.1
 
   # Maximum length cutoff for training examples.
-  config.max_target_length = 128
+  config.max_target_length = 256
   # Maximum length cutoff for eval examples.
   config.max_eval_target_length = 512
   # Maximum length cutoff for predicted tokens.
-  config.max_predict_length = 50
+  config.max_predict_length = 512
 
   # Final logit transform uses embedding matrix transpose.
   config.logits_via_embedding = False
 
   # Number of transformer layers.
-  config.num_layers = 6
+  config.num_layers = 12
 
   # Size of query/key/value for attention.
-  config.qkv_dim = 512
+  config.qkv_dim = 768
   # Size of embeddings.
-  config.emb_dim = 512
+  config.emb_dim = 768
   # Size of the MLP.
-  config.mlp_dim = 2048
+  config.mlp_dim = 3072
 
   # Number of attention heads.
-  config.num_heads = 8
+  config.num_heads = 12
 
   # Dropout rate.
   config.dropout_rate = 0.1
@@ -106,7 +109,7 @@ def get_config():
   # Save a checkpoint every these number of steps.
   config.checkpoint_every_steps = 10_000
   # Frequency of eval during training, e.g. every 1_000 steps.
-  config.eval_every_steps = 1_000
+  config.eval_every_steps = 5_000
 
   # Use bfloat16 mixed precision training instead of float32.
   config.use_bfloat16 = True
@@ -115,6 +118,6 @@ def get_config():
   config.seed = 0
 
   # Prompt for language model sampling.
-  config.prompts = "I love to "
+  config.prompts = "昔々あるところに"
 
   return config

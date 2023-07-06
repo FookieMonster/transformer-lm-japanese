@@ -1,13 +1,18 @@
 absl-py==1.0.0
 clu==0.0.6
+datasets==2.12.0
 flax==0.4.1
 jax==0.3.4
---find-links https://storage.googleapis.com/jax-releases/jax_releases.html
-jaxlib==0.3.2+cuda11.cudnn82  # Make sure CUDA version matches the base image.
+# TPU
+--find-links https://storage.googleapis.com/jax-releases/libtpu_releases.html
+jaxlib[tpu]==0.3.2
+# GPU
+# --find-links https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+# jaxlib[cuda11_pip]==0.3.2
 ml-collections==0.1.0
 numpy==1.22.0
 optax==0.1.0
-sentencepiece==0.1.96
+sentencepiece==0.1.99
 tensorflow==2.11.1
-tensorflow-datasets==4.4.0
-tensorflow-text==2.8.1
+tensorflow-datasets==4.8.3
+tensorflow-text==2.11.0

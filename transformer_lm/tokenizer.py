@@ -32,14 +32,14 @@ Features = Dict[str, tf.Tensor]
 def _dump_chars_to_textfile(
     dataset: tf.data.Dataset,
     maxchars: int = int(1e7),
-    data_keys=('inputs', 'targets')
+    data_key: str = 'inputs'
 ) -> Tuple[str, int]:
   """Write part of a TFDS sentence dataset to lines in a text file.
 
   Args:
     dataset: tf.dataset containing string-data.
     maxchars: int: approximate number of characters to save from dataset.
-    data_keys: Tuple[str]: what keys in dataset to dump from.
+    data_key: str: what key in dataset to dump from.
 
   Returns:
     name of temp file with dataset bytes, exact number of characters dumped.
@@ -50,10 +50,9 @@ def _dump_chars_to_textfile(
       delete=False, prefix='/tmp/ds_chars') as outfp:
     while char_count < maxchars:
       example = next(ds_iter)
-      for k in data_keys:
-        line = example[k] + b'\n'
-        char_count += len(line)
-        outfp.write(line)
+      line = example[data_key] + b'\n'
+      char_count += len(line)
+      outfp.write(line)
   return outfp.name, char_count
 
 
@@ -63,8 +62,8 @@ def _train_sentencepiece(dataset: tf.data.Dataset,
                          maxchars: int = int(1e7),
                          model_path: str,
                          model_type: str = 'unigram',
-                         character_coverage: float = 1.0,
-                         data_keys=('inputs', 'targets')):
+                         spm_train_options: str = '',
+                         data_key: str = 'inputs'):
   """Train SentencePiece tokenizer from subset of tf dataset.
 
   Args:
@@ -76,7 +75,7 @@ def _train_sentencepiece(dataset: tf.data.Dataset,
     character_coverage: amount of characters covered by the model, good defaults
       are 0.9995 for languages with rich character set like Japanese or Chinese
       and 1.0 for other languages with small character set.
-    data_keys: Tuple[str]: keys of dataset to use for training.
+    data_key: str: key of dataset to use for training.
 
   Returns:
     path to the trained sentencepiece vocabulary model.
@@ -86,14 +85,14 @@ def _train_sentencepiece(dataset: tf.data.Dataset,
   else:
     abs_model_path = os.path.abspath(os.path.expanduser(model_path))
   fname, _ = _dump_chars_to_textfile(
-      dataset, maxchars=maxchars, data_keys=data_keys)
+      dataset, maxchars=maxchars, data_key=data_key)
   with tempfile.NamedTemporaryFile(
       delete=False, prefix='/tmp/sp_tmp') as model_fp:
     pass  # we just want a prefix'd tmp-filename
   argstr = ' '.join([
       f'--input={fname}', f'--vocab_size={vocab_size}',
-      f'--character_coverage={character_coverage}',
-      f'--model_prefix={model_fp.name}', f'--model_type={model_type}'
+      f'--model_prefix={model_fp.name}', f'--model_type={model_type}',
+      spm_train_options
   ])
   SentencePieceTrainer.Train(argstr)
   if jax.process_index() == 0:
@@ -127,7 +126,8 @@ def load_or_train_tokenizer(dataset: tf.data.Dataset,
                             vocab_path: str,
                             vocab_size: int,
                             max_corpus_chars: int,
-                            data_keys: Tuple[str, str] = ('inputs', 'targets')):
+                            spm_train_options: str,
+                            data_key: str = 'inputs'):
   """Loads the tokenizer at `vocab_path` or trains a one from `dataset`."""
   try:
     return _load_sentencepiece_tokenizer(vocab_path)
@@ -138,7 +138,8 @@ def load_or_train_tokenizer(dataset: tf.data.Dataset,
         vocab_size=vocab_size,
         maxchars=max_corpus_chars,
         model_path=vocab_path,
-        data_keys=data_keys)
+        spm_train_options=spm_train_options,
+        data_key=data_key)
     return _load_sentencepiece_tokenizer(vocab_path)
 
 

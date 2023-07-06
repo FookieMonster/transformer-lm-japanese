@@ -556,6 +556,6 @@ def train_and_evaluate(config: ml_collections.ConfigDict, workdir: str):
       if config.save_checkpoints and save_checkpoint:
         logging.info("Saving checkpoint step %d.", step)
         with report_progress.timed("checkpoint"):
-          checkpoints.save_checkpoint_multiprocess(
+          checkpoints.save_checkpoint(
               workdir, jax_utils.unreplicate(state), step
           )

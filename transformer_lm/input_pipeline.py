@@ -22,6 +22,7 @@ import ml_collections
 import tensorflow as tf
 import tensorflow_datasets as tfds
 
+from dataset_preprocessor import DatasetPreprocessor
 import tokenizer
 
 AUTOTUNE = tf.data.experimental.AUTOTUNE
@@ -42,6 +43,7 @@ class NormalizeFeatureNamesOp:
 
 
 def get_raw_dataset(dataset_builder: tfds.core.DatasetBuilder,
+                    dataset_name: str,
                     split: str) -> tf.data.Dataset:
   """Loads a raw text dataset and normalizes feature keys.
 
@@ -56,8 +58,12 @@ def get_raw_dataset(dataset_builder: tfds.core.DatasetBuilder,
   """
   num_examples = dataset_builder.info.splits[split].num_examples
   per_host_split = deterministic_data.get_read_instruction_for_host(
-      split, num_examples, drop_remainder=False)
+      split, num_examples, drop_remainder=False, dataset_info=dataset_builder.info)
   ds = dataset_builder.as_dataset(split=per_host_split, shuffle_files=False)
+
+  preprocessor = DatasetPreprocessor()
+  ds = preprocessor.preprocess(dataset_name, ds)
+
   ds = ds.map(
       NormalizeFeatureNamesOp(dataset_builder.info),
       num_parallel_calls=AUTOTUNE)
@@ -317,20 +323,21 @@ def get_datasets(config: ml_collections.ConfigDict,
     vocab_path = os.path.expanduser('~/lm1b_sentencepiece_model')
 
   train_ds_builder = tfds.builder(config.dataset_name)
-  train_data = get_raw_dataset(train_ds_builder, 'train')
+  train_data = get_raw_dataset(train_ds_builder, config.dataset_name, config.train_split)
 
   if config.eval_dataset_name:
     eval_ds_builder = tfds.builder(config.eval_dataset_name)
   else:
     eval_ds_builder = train_ds_builder
-  eval_data = get_raw_dataset(eval_ds_builder, config.eval_split)
+  eval_data = get_raw_dataset(eval_ds_builder, config.eval_dataset_name, config.eval_split)
 
   # Tokenize data.
   sp_tokenizer = tokenizer.load_or_train_tokenizer(
       train_data,
       vocab_path=vocab_path,
       vocab_size=config.vocab_size,
-      max_corpus_chars=config.max_corpus_chars)
+      max_corpus_chars=config.max_corpus_chars,
+      spm_train_options=config.spm_train_options)
   train_data = train_data.map(
       tokenizer.TokenizeOp(sp_tokenizer), num_parallel_calls=AUTOTUNE)
   eval_data = eval_data.map(
