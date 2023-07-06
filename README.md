@@ -126,7 +126,6 @@ python3
 >>> import tensorflow_datasets as tfds
 >>> tfds.load('lm1b')
 >>> tfds.load('wiki40b/ja')
->>> tfds.load('huggingface:cc100/lang=ja')
 ```
 
 Start training by specifying the working directory, where TensorBoard event logs and checkpoints are saved, and the configuration file.
