@@ -95,9 +95,9 @@ $ python3
 
 ```
 >>> import tensorflow_datasets as tfds
->>> tfds.load('lm1b', split=["train", "test"], shuffle_files=False, data_dir="gs://my-tfds-data")
->>> tfds.load('wiki40b/ja', split=["train", "validation"], shuffle_files=False, data_dir="gs://my-tfds-data")
->>> tfds.load('huggingface:cc100/lang=ja', split="train", shuffle_files=False, data_dir="gs://my-tfds-data")
+>>> tfds.load('lm1b', data_dir="gs://my-tfds-data")
+>>> tfds.load('wiki40b/ja', data_dir="gs://my-tfds-data")
+>>> tfds.load('huggingface:cc100/lang=ja', data_dir="gs://my-tfds-data")
 ```
 
 データセットの事前ダウンロードが完了すると、以下のようにGCSバケット内に各データセット用のフォルダが作成されているはずです。  
