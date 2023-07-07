@@ -86,6 +86,7 @@ CPU-VMにSSHでアクセスします。
 
 次に、GCSバケットにAPIアクセスするために、APIキーファイルをアップロードしそのパスを環境変数に設定します。  
 
+例） カレントディレクトリにあるAPIキーファイルを、my-cpu-vm側の/tmp/service-account-api-key.jsonにコピー
 ```
 (local)$ gcloud compute scp ./service-account-api-key.json my-cpu-vm:/tmp/service-account-api-key.json --zone=us-central1-a
 ```
@@ -151,7 +152,7 @@ gcloud CLIのscpコマンドでコピーします。scpコマンドの書式は�
 gcloud compute tpus tpu-vm scp [ローカルファイルのパス] [TPU-VMインスタンス名]:[リモートファイルのパス] --zone=[ゾーン]
 ```
 
-例）カレントディレクトリにあるAPIキーファイルを、my-tpu-vm側の/tmp/service-account-api-key.jsonにコピー
+例） カレントディレクトリにあるAPIキーファイルを、my-tpu-vm側の/tmp/service-account-api-key.jsonにコピー
 
 ```
 (local)$ gcloud compute tpus tpu-vm scp ./service-account-api-key.json my-tpu-vm:/tmp/service-account-api-key.json --zone=us-central1-a
