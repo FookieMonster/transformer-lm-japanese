@@ -9,22 +9,10 @@
 #### GCPプロジェクトの作成とCLIのインストール
 
 まず、Google Cloud Platform（GCP）で新しくプロジェクトを作成し、[gcloud CLI をインストールする](https://cloud.google.com/sdk/docs/install?hl=ja)のドキュメントに従ってgcloudコマンドが使える状態にして下さい。次に、gcloudコマンドが正常にインストール＆セットアップできたことを以下のコマンドで確認します。
-projectに（新しく作成したプロジェクト名）が入っていればセットアップは完了です。
+新しく作成したプロジェクト名がデフォルト表示されていればセットアップは完了です。
 
 ```
-% gcloud config list
-```
-
-```
-[compute]
-region = us-central1
-zone = us-central1-a
-[core]
-account = xxxxxxxxxxx@gmail.com
-disable_usage_reporting = False
-project = （新しく作成したプロジェクト名）
-
-Your active configuration is: [default]
+(local)$ gcloud config list
 ```
 
 ---
@@ -63,34 +51,54 @@ Google Cloud ConsoleのWeb画面から、[IAMと管理]-[サービスアカウ�
 lm1bやwiki40b/jaは数時間で完了しますが、cc100/jaは数十時間かかります。
 TPU-VM上でダウンロードを行うとコストがかかるので、別のPython3.8環境で事前ダウンロード（GCSのバケットにアップロード）を行います。
 
-また、cc100/jaはデータセットのサイズが82GB（展開後数百GB）になるので、一時的なディスクの空き容量が最低でも数百GB必要です。
-私の場合は、以下のGCEインスタンスを借りてPython3.8環境を構築しました。
+また、cc100/jaはデータセットのサイズが74GB（temporaryが数百GB）になるので、一時的なディスクの空き容量が最低でも数百GB必要です。
+私の場合は、以下のようなGCE上のCPU-VMを使ってPython3.8環境を構築しました。
 
 ```
+名前： my-cpu-vm
 マシンタイプ: e2-standard-2 CPUx2 メモリ8GB
 ディスク: 2TB（標準永続ディスク）
+ゾーン： us-central1-a
 OS: Ubuntu 18 LTS
 ```
 
-事前ダウンロード用のPython3.8環境が準備できましたら、  
-まず、tensorflow-datasetsとその関連パッケージをインストールします。
+CPU-VMにSSHでアクセスします。
 
 ```
-pip install tensorflow==2.11.1
-pip install tensorflow-datasets==4.8.3
-pip install datasets==2.12.0
+(local)$ gcloud compute ssh my-cpu-vm --zone=us-central1-a
 ```
 
-次に、PythonコードからGCSバケットにAPIアクセスするために、先程ダウンロードしたAPIキーファイルのパスを環境変数に設定します。
+まず、Python3.8とpipをインストールします。
 
 ```
-export GOOGLE_APPLICATION_CREDENTIALS="/path/to/dir/service-account-api-key.json"
+(cpu-vm)$ sudo apt-get update
+(cpu-vm)$ sudo apt-get install python3.8 python3-pip build-essential
 ```
 
-次に、Pythonインタプリターを起動して、以下のPythonコードを順番に実行していきます。  
+次に、tensorflow-datasetsとその関連パッケージをインストールします。  
+（datasetsはHuggingface DatasetsのデータセットをTensorFlow Datasetsから使うために必要です）
 
 ```
-$ python3
+(cpu-vm)$ pip install tensorflow==2.11.1
+(cpu-vm)$ pip install tensorflow-datasets==4.8.3
+(cpu-vm)$ pip install datasets==2.12.0
+```
+
+次に、GCSバケットにAPIアクセスするために、APIキーファイルをアップロードしそのパスを環境変数に設定します。  
+
+```
+(local)$ gcloud compute scp ./service-account-api-key.json my-cpu-vm:/tmp/service-account-api-key.json --zone=us-central1-a
+```
+
+```
+(cpu-vm)$ export GOOGLE_APPLICATION_CREDENTIALS="/tmp/service-account-api-key.json"
+```
+
+次に、Pythonインタプリターを起動して、データセットを順番にダウンロードします。  
+（data_dirにはTensorFlow Datasetsのデータ保存用のGCSバケット名を指定して下さい）
+
+```
+(cpu-vm)$  python3
 ```
 
 ```
@@ -121,16 +129,16 @@ Google Cloud ConsoleのWeb画面から、[Compute Engine]-[TPU]-[TPUノードを
 #### TPU-VMインスタンスにSSHアクセス
 
 ```
-gcloud compute tpus tpu-vm ssh my-tpu-vm --zone=us-central1-a
+(local)$ gcloud compute tpus tpu-vm ssh my-tpu-vm --zone=us-central1-a
 ```
 
 #### ソースコードのクローンとPythonパッケージのインストール
 
 ```
-git clone -b 1.0.0.RC1 https://github.com/FookieMonster/transformer-lm-japanese
-cd ./transformer-lm-japanese/transformer_lm
-pip install -r requirements.txt
-pip install "jax[tpu]==0.3.2" -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
+(tpu-vm)$ git clone -b 1.0.0.RC1 https://github.com/FookieMonster/transformer-lm-japanese
+(tpu-vm)$ cd ./transformer-lm-japanese/transformer_lm
+(tpu-vm)$ pip install -r requirements.txt
+(tpu-vm)$ pip install "jax[tpu]==0.3.2" -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
 ```
 
 #### APIキーのアップロード
@@ -145,7 +153,7 @@ gcloud compute tpus tpu-vm scp [ローカルファイルのパス] [TPU-VMイン
 例）カレントディレクトリにあるAPIキーファイルを、my-tpu-vm側の/tmp/service-account-api-key.jsonにコピー
 
 ```
-gcloud compute tpus tpu-vm scp ./service-account-api-key.json my-tpu-vm:/tmp/service-account-api-key.json --zone=us-central1-a
+(local)$ gcloud compute tpus tpu-vm scp ./service-account-api-key.json my-tpu-vm:/tmp/service-account-api-key.json --zone=us-central1-a
 ```
 
 #### トレーニングの開始
@@ -153,19 +161,19 @@ gcloud compute tpus tpu-vm scp ./service-account-api-key.json my-tpu-vm:/tmp/ser
 GCSバケットにAPIアクセスするために必要なキーファイルを環境変数にセットします。
 
 ```
-export GOOGLE_APPLICATION_CREDENTIALS="/tmp/service-account-api-key.json"
+(tpu-vm)$ export GOOGLE_APPLICATION_CREDENTIALS="/tmp/service-account-api-key.json"
 ```
 
 TensorFlow DatasetsのデータディレクトリをGCSのバケットに設定します。  
 
 ```
-export TFDS_DATA_DIR=gs://my-tfds-data
+(tpu-vm)$ export TFDS_DATA_DIR=gs://my-tfds-data
 ```
 
 GCS上のワークディレクトリを指定してトレーニングを開始します。
 
 ```
-python3 main.py --workdir=gs://my-lm-work/japanese_0.1b_v1 --config=configs/japanese_0.1b_v1.py
+(tpu-vm)$ python3 main.py --workdir=gs://my-lm-work/japanese_0.1b_v1 --config=configs/japanese_0.1b_v1.py
 ```
 
 以上で、  
