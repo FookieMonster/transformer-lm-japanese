@@ -101,7 +101,7 @@ CPU-VMにSSHでアクセスします。
 ```
 
 次に、Pythonインタプリターを起動して、データセットを順番にダウンロードします。  
-（data_dirにはTensorFlow Datasetsのデータ保存用のGCSバケット名を指定して下さい）
+**（data_dirにはTensorFlow Datasetsのデータ保存用のGCSバケット名を指定して下さい）**
 
 ```
 (cpu-vm)$ python3
