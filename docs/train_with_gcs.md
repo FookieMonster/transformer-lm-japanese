@@ -1,6 +1,6 @@
 ### Cloud TPUによるトレーニング手順（Googleクラウドストレージ版）
 
-ここでは、transformer-lm-japaneseのモデルをGoogleクラウドストレージ（GCS）上のデータセットとワークディレクトリを利用してTPUで学習させる手順を説明します。コスト削減のためにプリエンプティブルなTPU-VMを利用します。
+ここでは、transformer-lm-japaneseの言語モデルをGoogleクラウドストレージ（GCS）上のデータセットとワークディレクトリを利用してTPUで学習させる手順を説明します。コスト削減のためにプリエンプティブルなTPU-VMを利用します。
 
 プリエンプティブルなTPU-VMはいつ停止されるか分からず、一度PREEMPTED状態になるとVMインスタンスのデータに一切アクセスできず、VMを削除することしかできません。
 なので、ワークディレクトリやデータセットディレクトリはGCS上に作成する必要があります。
@@ -98,7 +98,7 @@ CPU-VMにSSHでアクセスします。
 （data_dirにはTensorFlow Datasetsのデータ保存用のGCSバケット名を指定して下さい）
 
 ```
-(cpu-vm)$  python3
+(cpu-vm)$ python3
 ```
 
 ```
@@ -144,7 +144,8 @@ Google Cloud ConsoleのWeb画面から、[Compute Engine]-[TPU]-[TPUノードを
 #### APIキーのアップロード
 
 APIキーをローカルPC側からTPU-VMインスタンス側へコピーする必要があります。  
-gcloud CLIのscpコマンドでコピーします。scpコマンドの書式は以下のとおりです。
+gcloud CLIのscpコマンドでコピーします。scpコマンドの書式は以下のとおりです。  
+（CPU-VMとTPU-VMでは書式が異なります）
 
 ```
 gcloud compute tpus tpu-vm scp [ローカルファイルのパス] [TPU-VMインスタンス名]:[リモートファイルのパス] --zone=[ゾーン]
