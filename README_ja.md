@@ -12,7 +12,8 @@
 Flaxの公式サンプルコードには、トランスフォーマーのデコーダー型の言語モデルである[lm1b](https://github.com/google/flax/tree/main/examples/lm1b)が存在します。その元々のサンプルコードは英文データセットの[One Billion Word Benchmark](https://arxiv.org/abs/1312.3005)で学習が行われていますが、本リポジトリではそのコードを一部修正し、日本語データセットを用いて言語モデルの学習が可能となっています。
 
 このリポジトリには、日本語データセットを使用して言語モデルを訓練するためのコードと、その設定ファイルが含まれています。
-学習済みの重みはHugging Faceのモデルハブからダウンロードできるようにする予定です。
+
+学習済みの重みからテキストを生成するコードも含まれています。学習済みの重みはHugging Faceのモデルハブからダウンロードできるようにする予定です。
 
 ---
 ### モデルの概要
@@ -142,3 +143,17 @@ python3 main.py --workdir=$HOME/logs/japanese_0.1b_v1 --config=configs/japanese_
 ### Cloud TPUによるトレーニング手順（Googleクラウドストレージ版）
 
 ワークディレクトリやデータセットのディレクトリをGCSにする場合のトレーニング手順は[こちら](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/docs/train_with_gcs.md)を参照
+
+### Cloud TPUによるテキスト生成
+
+学習済みの重み（チェックポイント）が保存されているワークディレクトリと設定ファイルを指定してテキストを生成することが可能です。
+
+```
+python3 generate_text.py --workdir=$HOME/logs/japanese_0.1b_v1 \
+    --config=configs/japanese_0.1b_v1.py \
+    --config.sampling_temperature=0.6 \
+    --config.sampling_top_k=20 \
+    --config.seed=0 \
+    --config.prompts="夏目漱石は、" \
+    --num_generated_texts=10
+```
