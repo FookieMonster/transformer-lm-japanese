@@ -79,7 +79,7 @@ class DatasetPreprocessor:
 ```
 ---
 
-### How to train on Cloud TPU
+### How to Train on Cloud TPU
 
 Creating a Cloud TPU VM with gcloud
 
@@ -136,11 +136,11 @@ python3 main.py --workdir=$HOME/logs/japanese_0.1b_v1 --config=configs/japanese_
 ```
 ---
 
-### How to train on Cloud TPU (Google Cloud Storage)
+### How to Train on Cloud TPU (Google Cloud Storage)
 
 For the training procedure when setting the working directory and dataset directory to GCS, refer to [this](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/docs/train_with_gcs.md).
 
-### Text Generation Using Cloud TPU
+### Text Generation
 
 You can generate text by specifying a working directory where the trained weights (checkpoints) are saved and the configuration file.
 
