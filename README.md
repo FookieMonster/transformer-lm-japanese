@@ -11,7 +11,7 @@ This is a JAX/Flax-based transformer language model trained on a Japanese datase
 
 In the official example code of Flax, there exists [lm1b](https://github.com/google/flax/tree/main/examples/lm1b), a transformer decoder type language model. The original example code is trained with the English dataset called [the One Billion Word Benchmark](https://arxiv.org/abs/1312.3005), but this repository modifies the code to train a language model using a Japanese dataset.
 
-This repository includes the code for training a language model using a Japanese dataset, and its configuration files. We plan to make the trained weights downloadable from the Hugging Face model hub.
+This repository includes the code for training a language model using a Japanese dataset, and its configuration files. It also includes code to generate text from the trained weights. We plan to make the trained weights downloadable from the Hugging Face model hub.
 
 ---
 ### Model Overview
@@ -79,7 +79,7 @@ class DatasetPreprocessor:
 ```
 ---
 
-### How to run on Cloud TPUs
+### How to train on Cloud TPU
 
 Creating a Cloud TPU VM with gcloud
 
@@ -136,6 +136,20 @@ python3 main.py --workdir=$HOME/logs/japanese_0.1b_v1 --config=configs/japanese_
 ```
 ---
 
-### How to run on Cloud TPUs (Google Cloud Storage)
+### How to train on Cloud TPU (Google Cloud Storage)
 
 For the training procedure when setting the working directory and dataset directory to GCS, refer to [this](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/docs/train_with_gcs.md).
+
+### Text Generation Using Cloud TPU
+
+You can generate text by specifying a working directory where the trained weights (checkpoints) are saved and the configuration file.
+
+```
+python3 generate_text.py --workdir=$HOME/logs/japanese_0.1b_v1 \
+    --config=configs/japanese_0.1b_v1.py \
+    --config.sampling_temperature=0.6 \
+    --config.sampling_top_k=20 \
+    --config.seed=0 \
+    --config.prompts="夏目漱石は、" \
+    --num_generated_texts=10
+```
