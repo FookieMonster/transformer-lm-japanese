@@ -106,10 +106,6 @@ TPU-VMは実際にはUbuntu 20.04のVMインスタンスです。
 
 ```
 Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-1043-gcp x86_64)
-
- * Documentation:  https://help.ubuntu.com
- * Management:     https://landscape.canonical.com
- * Support:        https://ubuntu.com/advantage
 ```
 
 このリポジトリのソースコードをクローンし、必要なPythonパッケージをインストールします。
@@ -120,6 +116,20 @@ cd ./transformer-lm-japanese/transformer_lm
 pip install -r requirements.txt
 pip install "jax[tpu]==0.3.2" -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
 ```
+
+Pythonインタプリターを起動して、必要なデータセットを事前にダウンロードします。
+
+```
+python3
+```
+
+```
+>>> import tensorflow_datasets as tfds
+>>> tfds.load('lm1b')
+>>> tfds.load('wiki40b/ja')
+```
+
+（cc100は数百GBのサイズがあります。cc100でトレーニングしたい場合、[こちら](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/docs/train_with_gcs.md)の手順でGCS上にデータセットを作成して下さい）
 
 TensorBoardのイベントログやチェックポイントが保存されるワークディレクトリと、  
 設定ファイルを指定してトレーニングを開始します。

@@ -105,10 +105,6 @@ It is found that the TPU VM is actually a VM instance of Ubuntu 20.04.
 
 ```
 Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-1043-gcp x86_64)
-
- * Documentation:  https://help.ubuntu.com
- * Management:     https://landscape.canonical.com
- * Support:        https://ubuntu.com/advantage
 ```
 
 Clone the source code of this repository and install the necessary Python packages.
@@ -119,6 +115,19 @@ cd ./transformer-lm-japanese/transformer_lm
 pip install -r requirements.txt
 pip install "jax[tpu]==0.3.2" -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
 ```
+
+Run the Python interpreter and pre-download the necessary datasets.
+
+```
+python3
+```
+
+```
+>>> import tensorflow_datasets as tfds
+>>> tfds.load('lm1b')
+>>> tfds.load('wiki40b/ja')
+```
+The cc100 dataset requires several hundred GB of disk space. If you want to train with the cc100 dataset, please create the dataset on Google Cloud Storage following the procedures in [this](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/docs/train_with_gcs.md) document.
 
 Start training by specifying the working directory, where TensorBoard event logs and checkpoints are saved, and the configuration file.
 
