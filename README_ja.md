@@ -11,7 +11,7 @@
 
 Flaxの公式サンプルコードには、トランスフォーマーのデコーダー型の言語モデルである[lm1b](https://github.com/google/flax/tree/main/examples/lm1b)が存在します。その元々のサンプルコードは英文データセットの[One Billion Word Benchmark](https://arxiv.org/abs/1312.3005)で学習が行われていますが、本リポジトリではそのコードを一部修正し、日本語データセットを用いて言語モデルの学習が可能となっています。
 
-このリポジトリには、日本語データセットを使用して言語モデルを訓練するためのコードと、その設定ファイルが含まれています。学習済みの重みからテキストを生成するコードも含まれています。学習済みの重みはHugging Faceのモデルハブからダウンロードできるようにする予定です。
+このリポジトリには、日本語データセットを使用して言語モデルを訓練するためのコードと、その設定ファイルが含まれています。学習済みの重みからテキストを生成するコードも含まれています。学習済みの重み（チェックポイント）は[Hugging Faceのモデルハブ](https://huggingface.co/fukugawa)からダウンロードすることもできます。
 
 ---
 ### モデルの概要
@@ -22,7 +22,7 @@ Flaxの公式サンプルコードには、トランスフォーマーのデコ�
 |-|-|-|-|-|-|
 | lm1b-default | TPU v3-8 | 1.0.0.RC1 | lm1b_default | lm1b | オリジナルの再現 |
 | transformer-lm-japanese-default | TPU v3-8 | 1.0.0.RC1 | japanese_default_v1 | cc100/ja | オリジナルと同じ6層 |
-| transformer-lm-japanese-0.1b | TPU v3-8 | 1.0.0.RC1 | japanese_0.1b_v1 | wiki40b/ja | GPT-2 samllを参考に12層 |
+| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | TPU v3-8 | 1.0.0.RC1 | japanese_0.1b_v1 | wiki40b/ja | GPT-2 samllを参考に12層 |
 
 #### トレーニング結果
 
@@ -30,7 +30,7 @@ Flaxの公式サンプルコードには、トランスフォーマーのデコ�
 |-|-|-|-|-|-|-|-|
 | lm1b-default | 0.05B | 6 | 512 | 8 | 3.121 | 22.67 | 0.5 days |
 | transformer-lm-japanese-default | 0.05B | 6 | 512 | 8 | 4.195 | 66.38 | 0.5 days |
-| transformer-lm-japanese-0.1b | 0.1B | 12 | 768 | 12 | 3.562 | 35.22 | 1.5 days |
+| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | 0.1B | 12 | 768 | 12 | 3.562 | 35.22 | 1.5 days |
 
 #### TensorBoard
 
