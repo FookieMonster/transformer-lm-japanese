@@ -11,7 +11,7 @@ This is a JAX/Flax-based transformer language model trained on a Japanese datase
 
 In the official example code of Flax, there exists [lm1b](https://github.com/google/flax/tree/main/examples/lm1b), a transformer decoder type language model. The original example code is trained with the English dataset called [the One Billion Word Benchmark](https://arxiv.org/abs/1312.3005), but this repository modifies the code to train a language model using a Japanese dataset.
 
-This repository includes the code for training a language model using a Japanese dataset, and its configuration files. It also includes code to generate text from the trained weights. You can download the pre-trained weights (checkpoints) from Hugging Face's [model hub](https://huggingface.co/fukugawa).
+This repository includes the code for training a language model using a Japanese dataset, and its configuration files. It also includes code to generate text from the trained weights. You can download the pre-trained weights (checkpoints) from [Hugging Face's model hub](https://huggingface.co/fukugawa).
 
 ---
 ### Model Overview
