@@ -11,7 +11,7 @@ This is a JAX/Flax-based transformer language model trained on a Japanese datase
 
 In the official example code of Flax, there exists [lm1b](https://github.com/google/flax/tree/main/examples/lm1b), a transformer decoder type language model. The original example code is trained with the English dataset called [the One Billion Word Benchmark](https://arxiv.org/abs/1312.3005), but this repository modifies the code to train a language model using a Japanese dataset.
 
-This repository includes the code for training a language model using a Japanese dataset, and its configuration files. It also includes code to generate text from the trained weights. We plan to make the trained weights downloadable from the Hugging Face model hub.
+This repository includes the code for training a language model using a Japanese dataset, and its configuration files. It also includes code to generate text from the trained weights. You can download the pre-trained weights (checkpoints) from Hugging Face's [model hub](https://huggingface.co/fukugawa).
 
 ---
 ### Model Overview
@@ -22,7 +22,7 @@ This repository includes the code for training a language model using a Japanese
 |-|-|-|-|-|-|
 | lm1b-default | TPU v3-8 | 1.0.0.RC1 | lm1b_default | lm1b | Reproduction of the original |
 | transformer-lm-japanese-default | TPU v3-8 | 1.0.0.RC1 | japanese_default_v1 | cc100/ja | 6 layers |
-| transformer-lm-japanese-0.1b | TPU v3-8 | 1.0.0.RC1 | japanese_0.1b_v1 | wiki40b/ja | 12 layers, referring to GPT-2 small |
+| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | TPU v3-8 | 1.0.0.RC1 | japanese_0.1b_v1 | wiki40b/ja | 12 layers, referring to GPT-2 small |
 
 #### Training Results
 
@@ -30,7 +30,7 @@ This repository includes the code for training a language model using a Japanese
 |-|-|-|-|-|-|-|-|
 | lm1b-default | 0.05B | 6 | 512 | 8 | 3.121 | 22.67 | 0.5 days |
 | transformer-lm-japanese-default | 0.05B | 6 | 512 | 8 | 4.195 | 66.38 | 0.5 days |
-| transformer-lm-japanese-0.1b | 0.1B | 12 | 768 | 12 | 3.562 | 35.22 | 1.5 days |
+| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | 0.1B | 12 | 768 | 12 | 3.562 | 35.22 | 1.5 days |
 
 #### TensorBoard
 
