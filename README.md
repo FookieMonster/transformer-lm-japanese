@@ -13,6 +13,8 @@ In the official example code of Flax, there exists [lm1b](https://github.com/goo
 
 This repository includes the code for training a language model using a Japanese dataset, and its configuration files. It also includes code to generate text from the trained weights. You can download the pre-trained weights (checkpoints) from [Hugging Face's model hub](https://huggingface.co/fukugawa).
 
+For more details, see our [blog post](https://zenn.dev/fukugawa/articles/4446573ec0f697).
+
 ---
 ### Model Overview
 
