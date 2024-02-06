@@ -141,10 +141,10 @@ Google Cloud ConsoleのWeb画面から、[Compute Engine]-[TPU]-[TPUノードを
 #### ソースコードのクローンとPythonパッケージのインストール
 
 ```
-(tpu-vm)$ git clone -b 1.0.0.RC2 https://github.com/FookieMonster/transformer-lm-japanese
+(tpu-vm)$ git clone -b 1.0.0.RC3 https://github.com/FookieMonster/transformer-lm-japanese
 (tpu-vm)$ cd ./transformer-lm-japanese/transformer_lm
 (tpu-vm)$ pip install -r requirements.txt
-(tpu-vm)$ pip install "jax[tpu]==0.3.2" -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
+(tpu-vm)$ pip install "jax[tpu]==0.4.13" -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
 ```
 
 #### APIキーのアップロード
