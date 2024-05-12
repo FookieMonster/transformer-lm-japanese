@@ -112,10 +112,10 @@ Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-1043-gcp x86_64)
 このリポジトリのソースコードをクローンし、必要なPythonパッケージをインストールします。
 
 ```
-git clone -b 1.0.0.RC2 https://github.com/FookieMonster/transformer-lm-japanese
+git clone -b 1.0.0.RC3 https://github.com/FookieMonster/transformer-lm-japanese
 cd ./transformer-lm-japanese/transformer_lm
 pip install -r requirements.txt
-pip install "jax[tpu]==0.3.2" -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
+pip install "jax[tpu]==0.4.13" -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
 ```
 
 Pythonインタプリターを起動して、必要なデータセットを事前にダウンロードします。
