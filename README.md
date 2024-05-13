@@ -181,7 +181,7 @@ I0711 07:22:50.240439 140565925375040 train.py:344] Sample: 夏目漱石は、�
 ```
 
 ---
-### Text Generation (Download weights from HuggingFace's Model Hub)
+### Text Generation (Download weights from HuggingFace)
 
 Here, we explain the procedure to generate text from pretrained weights using a CPU. We used the following instance on GCP for the Python 3.10 environment.
 
