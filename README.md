@@ -179,3 +179,63 @@ I0711 07:22:50.048584 140565925375040 train.py:344] Sample: 夏目漱石は、�
 I0711 07:22:50.048887 140565925375040 train.py:323] Generating text.
 I0711 07:22:50.240439 140565925375040 train.py:344] Sample: 夏目漱石は、漱石の「吾輩は猫である」という言葉を、漱石が「猫を飼っている人は猫である」という誤解から誤解したのだろうと、著書『猫の散歩道』で述べている。
 ```
+
+---
+### Text Generation (Download weights from HuggingFace's Model Hub)
+
+Here, we explain the procedure to generate text from pretrained weights using a CPU. We used the following instance on GCP for the Python 3.10 environment.
+
+* Machine Type: c2-standard-4 (4 CPUs, 16GB Memory)
+* Disk: 100GB (Standard Persistent Disk)
+* OS: Ubuntu 22.04 LTS x86/64
+
+Install Python 3.10 and pip.
+
+```
+sudo apt-get update
+sudo apt-get install python3.10 python3-pip build-essential
+```
+
+Install the huggingface_hub library.
+
+```
+pip install --upgrade huggingface_hub
+```
+
+Run the Python interpreter and download the model files.
+
+```
+cd $HOME
+python3
+```
+
+```python
+>>> from huggingface_hub import hf_hub_download
+>>> hf_hub_download(repo_id="fukugawa/transformer-lm-japanese-0.1b", filename="sentencepiece_model", revision="v1", local_dir="./logs/japanese_0.1b_v1", local_dir_use_symlinks=False)
+>>> hf_hub_download(repo_id="fukugawa/transformer-lm-japanese-0.1b", filename="checkpoint_499999", revision="v1", local_dir="./logs/japanese_0.1b_v1", local_dir_use_symlinks=False)
+```
+
+Clone the source code and install the necessary Python packages.
+
+```
+git clone -b 1.0.0.RC3 https://github.com/FookieMonster/transformer-lm-japanese
+cd ./transformer-lm-japanese/transformer_lm
+pip install -r requirements.txt
+```
+
+Install the necessary Python packages to run on the CPU.
+
+```
+pip install jax[cpu]==0.4.13
+pip install protobuf==3.20.3
+```
+
+```
+python3 generate_text.py --workdir=$HOME/logs/japanese_0.1b_v1 \
+    --config=configs/japanese_0.1b_v1.py \
+    --config.sampling_temperature=0.6 \
+    --config.sampling_top_k=20 \
+    --config.seed=0 \
+    --config.prompts="夏目漱石は、" \
+    --num_generated_texts=10
+```
