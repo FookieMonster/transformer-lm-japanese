@@ -230,6 +230,8 @@ pip install jax[cpu]==0.4.13
 pip install protobuf==3.20.3
 ```
 
+Pass the directory with the weights as an argument to generate text.
+
 ```
 python3 generate_text.py --workdir=$HOME/logs/japanese_0.1b_v1 \
     --config=configs/japanese_0.1b_v1.py \
