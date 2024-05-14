@@ -1,12 +1,20 @@
+import os
 import unittest
 
 import jax
 import jax.numpy as jnp
 from flax.training import checkpoints
+from huggingface_hub import hf_hub_download
 
 from hf_custom_model.transformer_lm.configuration_transformerlm import TransformerLMConfig
 from hf_custom_model.transformer_lm.modeling_transformerlm_flax import FlaxTransformerLMForCausalLM
 from hf_custom_model.transformer_lm.tokenization_transformerlm import TransformerLMTokenizer
+
+REPO_ID = "fukugawa/transformer-lm-japanese-0.1b"
+REPO_VER = "v1"
+LOCAL_DIR = "../hf_custom_model/transformer_lm/files"
+VOCAB_FILE = "../hf_custom_model/transformer_lm/files/sentencepiece_model"
+CHECKPOINT_FILE = "../hf_custom_model/transformer_lm/files/checkpoint_499999"
 
 
 def copy_nested_params(left_params, right_params):
@@ -25,6 +33,20 @@ def copy_nested_params(left_params, right_params):
 class TestFlaxTransformerLMForCausalLM(unittest.TestCase):
 
   def setUp(self):
+    if not os.path.exists(VOCAB_FILE):
+      hf_hub_download(
+        repo_id=REPO_ID,
+        filename="sentencepiece_model",
+        revision=REPO_VER,
+        local_dir=LOCAL_DIR,
+      )
+    if not os.path.exists(CHECKPOINT_FILE):
+      hf_hub_download(
+        repo_id=REPO_ID,
+        filename="checkpoint_499999",
+        revision=REPO_VER,
+        local_dir=LOCAL_DIR,
+      )
     self.config = TransformerLMConfig(
       vocab_size=30000,
       output_vocab_size=30000,
@@ -41,9 +63,9 @@ class TestFlaxTransformerLMForCausalLM(unittest.TestCase):
       decode=True,
     )
     self.tokenizer = TransformerLMTokenizer(
-      vocab_file="../hf_custom_model/transformer_lm/files/sentencepiece_model"
+      vocab_file=VOCAB_FILE
     )
-    restored_params = checkpoints.restore_checkpoint("../hf_custom_model/transformer_lm/files/checkpoint_499999", target=None)
+    restored_params = checkpoints.restore_checkpoint(CHECKPOINT_FILE, target=None)
     self.model = FlaxTransformerLMForCausalLM(self.config, dtype=jnp.float32)
     self.model.params = copy_nested_params(self.model.params, restored_params['params'])
     self.model.params['logitdense'] = restored_params['params']['decoder']['logitdense']
