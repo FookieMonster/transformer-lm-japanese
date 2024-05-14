@@ -18,7 +18,7 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 ---
 ### 更新履歴
 
-* 2024/05/13 FlaxAutoModelForCausalLMに対応したカスタムモデルコード（hf_custom_model）を追加しました。
+* 2024/05/13 FlaxAutoModelForCausalLMに対応したカスタムモデルコード(hf_custom_model)を追加
 
 ---
 ### モデルの概要
