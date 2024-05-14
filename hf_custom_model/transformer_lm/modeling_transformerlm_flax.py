@@ -273,7 +273,7 @@ class FlaxTransformerLMPreTrainedModel(FlaxPreTrainedModel):
       config: TransformerLMConfig,
       input_shape: Tuple = (1, 1),
       seed: int = 0,
-      dtype: jnp.dtype = jnp.bfloat16,
+      dtype: jnp.dtype = jnp.float32,
       _do_init: bool = True,
       **kwargs,
   ):
@@ -511,7 +511,7 @@ class FlaxTransformerLMModel(FlaxTransformerLMPreTrainedModel):
 
 class FlaxTransformerLMForCausalLMModule(nn.Module):
   config: TransformerLMConfig
-  dtype: jnp.dtype = jnp.bfloat16
+  dtype: jnp.dtype = jnp.float32
   kernel_init: Callable = nn.initializers.xavier_uniform()
   bias_init: Callable = nn.initializers.normal(stddev=1e-6)
   posemb_init: Callable = None
