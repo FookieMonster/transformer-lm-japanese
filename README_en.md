@@ -2,31 +2,31 @@
 
 <h4 align="center">
     <p>
-        <a href="https://github.com/FookieMonster/transformer-lm-japanese">English</a> |
-        <b>日本語</b>
+        <a href="https://github.com/FookieMonster/transformer-lm-japanese">日本語</a> |
+        <b>English</b>
     <p>
 </h4>
 
-日本語のデータセットで学習するJAX/FlaxベースのTransformer言語モデルです。Flax公式のサンプルコード（lm1b）をベースにしています。
+This is a JAX/Flax-based transformer language model trained on a Japanese dataset. It is based on the official Flax example code (lm1b).
 
-Flaxの公式サンプルコードには、Transformerのデコーダー型の言語モデルである[lm1b](https://github.com/google/flax/tree/main/examples/lm1b)が存在します。その元々のサンプルコードは英文データセットの[One Billion Word Benchmark](https://arxiv.org/abs/1312.3005)で学習が行われていますが、本リポジトリではそのコードを一部修正し、日本語データセットを用いて言語モデルの学習が可能となっています。
+In the official example code of Flax, there exists [lm1b](https://github.com/google/flax/tree/main/examples/lm1b), a transformer decoder type language model. The original example code is trained with the English dataset called [the One Billion Word Benchmark](https://arxiv.org/abs/1312.3005), but this repository modifies the code to train a language model using a Japanese dataset.
 
-このリポジトリには、日本語データセットを使用して言語モデルを訓練するためのコードと、その設定ファイルが含まれています。学習済みの重みからテキストを生成するコードも含まれています。学習済みの重み（チェックポイント）は、[Hugging Faceのモデルハブ](https://huggingface.co/fukugawa)からダウンロードすることもできます。
+This repository includes the code for training a language model using a Japanese dataset, and its configuration files. It also includes code to generate text from the trained weights. You can download the pre-trained weights (checkpoints) from [Hugging Face's model hub](https://huggingface.co/fukugawa).
 
-その他の詳細な情報は、こちらの[技術ブログ](https://zenn.dev/fukugawa/articles/4446573ec0f697)でも公開しています。
+For more details, see our [blog post](https://zenn.dev/fukugawa/articles/4446573ec0f697).
 
 ---
-### モデルの概要
+### Model Overview
 
-#### トレーニング環境
+#### Training Environment
 
 | Model | Hardware | Code | Config | Dataset | Note |
 |-|-|-|-|-|-|
-| lm1b-default | TPU v3-8 | 1.0.0.RC1 | lm1b_default | lm1b | オリジナルの再現 |
-| transformer-lm-japanese-default | TPU v3-8 | 1.0.0.RC1 | japanese_default_v1 | cc100/ja | オリジナルと同じ6層 |
-| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | TPU v3-8 | 1.0.0.RC1 | japanese_0.1b_v1 | wiki40b/ja | GPT-2 samllを参考に12層 |
+| lm1b-default | TPU v3-8 | 1.0.0.RC1 | lm1b_default | lm1b | Reproduction of the original |
+| transformer-lm-japanese-default | TPU v3-8 | 1.0.0.RC1 | japanese_default_v1 | cc100/ja | 6 layers |
+| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | TPU v3-8 | 1.0.0.RC1 | japanese_0.1b_v1 | wiki40b/ja | 12 layers, referring to GPT-2 small |
 
-#### トレーニング結果
+#### Training Results
 
 | Model | Params | Layers | Dim | Heads | Loss | PPL | Training time |
 |-|-|-|-|-|-|-|-|
@@ -38,24 +38,24 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 
 <img src="/images/tensorboard-2.png" width="860">
 
-#### トークンナイザー
+#### Tokenizer
 
-トークンナイザーはオリジナルと同じくSentencePieceを使ってサブワードの学習を行っていますが、日本語特有なオプションをソースコードを修正することなく、設定ファイルから簡単に追加できるように以下の設定項目（config.spm_train_options）を追加しています。
+The tokenizer uses SentencePiece, the same as the original, for subword learning. However, to easily add options specific to Japanese without modifying the source code, the following configuration item (config.spm_train_options) has been added so that they can be added simply from the configuration file.
 
 ```
 config.spm_train_options = "--character_coverage=0.9995 --byte_fallback=true"
 ```
 
-#### データセット
+#### Dataset
 
-データセットはオリジナルと同じくTensorFlow Datasetsのデータを使っています。  
-日本語データセットは、現在のところ以下の２種類に対応しています。
+The dataset uses data from TensorFlow Datasets, the same as the original.
+The Japanese dataset currently supports the following two types:
 
 * wiki40b/ja
 * huggingface:cc100/lang=ja
 
-例えばcc100(ja)は、以下のように設定ファイルに記載することで利用可能です。  
-（cc100はスプリットがtrainしかありませんのでサブスプリット分割して設定しています）
+For example, you can use cc100(ja) by including it in the configuration file as follows.  
+(Since cc100 only has a 'train' split, it is set up by dividing it into sub-splits.)
 
 ```
 config.dataset_name = "huggingface:cc100/lang=ja"
@@ -64,10 +64,10 @@ config.eval_dataset_name = "huggingface:cc100/lang=ja"
 config.eval_split = "train[98%:]"
 ```
 
-#### 前処理
+#### Preprocessing
 
-dataset_preprocessor.pyで日本語データセットの前処理をオンザフライに行います。  
-上記２種類以外の日本語データセットに対応したい場合、dataset_preprocessor.pyに前処理用のプリプロセッサコードを追加することで簡単に適応できます。
+The dataset_preprocessor.py performs on-the-fly preprocessing of the Japanese dataset.
+If you want to support Japanese datasets other than the above two types, you can easily adapt by adding preprocessor code for preprocessing to the dataset_preprocessor.py.
 
 ```python
 class DatasetPreprocessor:
@@ -81,9 +81,9 @@ class DatasetPreprocessor:
 ```
 ---
 
-### Cloud TPUによるトレーニング手順
+### How to Train on Cloud TPU
 
-TPU-VMの作成
+Creating a Cloud TPU VM with gcloud
 
 ```
 ZONE=us-central1-a
@@ -97,19 +97,19 @@ gcloud compute tpus tpu-vm create $TPU_NAME \
     --version $TPU_SOFTWARE_VERSION
 ```
 
-TPU-VMにSSHでアクセス
+Connecting to your Cloud TPU VM
 
 ```
 gcloud compute tpus tpu-vm ssh $TPU_NAME --zone $ZONE
 ```
 
-TPU-VMは実際にはUbuntu 20.04のVMインスタンスです。
+It is found that the TPU VM is actually a VM instance of Ubuntu 20.04.
 
 ```
 Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-1043-gcp x86_64)
 ```
 
-このリポジトリのソースコードをクローンし、必要なPythonパッケージをインストールします。
+Clone the source code of this repository and install the necessary Python packages.
 
 ```
 git clone -b 1.0.0.RC3 https://github.com/FookieMonster/transformer-lm-japanese
@@ -118,7 +118,7 @@ pip install -r requirements.txt
 pip install "jax[tpu]==0.4.13" -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
 ```
 
-Pythonインタプリターを起動して、必要なデータセットを事前にダウンロードします。
+Run the Python interpreter and pre-download the necessary datasets.
 
 ```
 python3
@@ -129,25 +129,23 @@ python3
 >>> tfds.load('lm1b')
 >>> tfds.load('wiki40b/ja')
 ```
+The cc100 dataset requires several hundred GB of disk space. If you want to train with the cc100 dataset, please create the dataset on Google Cloud Storage following the procedures in [this](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/docs/train_with_gcs.md) document.
 
-（cc100は数百GBのサイズがあります。cc100でトレーニングしたい場合、[こちら](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/docs/train_with_gcs.md)の手順でGCS上にデータセットを作成して下さい）
-
-TensorBoardのイベントログやチェックポイントが保存されるワークディレクトリと、  
-設定ファイルを指定してトレーニングを開始します。
+Start training by specifying the working directory, where TensorBoard event logs and checkpoints are saved, and the configuration file.
 
 ```
 python3 main.py --workdir=$HOME/logs/japanese_0.1b_v1 --config=configs/japanese_0.1b_v1.py
 ```
 
 ---
-### Cloud TPUによるトレーニング手順（Googleクラウドストレージ版）
+### How to Train on Cloud TPU (Google Cloud Storage)
 
-ワークディレクトリやデータセットのディレクトリをGCSにする場合のトレーニング手順は[こちら](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/docs/train_with_gcs.md)を参照
+For the training procedure when setting the working directory and dataset directory to GCS, refer to [this](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/docs/train_with_gcs.md).
 
 ---
-### テキスト生成
+### Text Generation
 
-学習済みの重み（チェックポイント）が保存されているワークディレクトリと設定ファイルを指定してテキストを生成することが可能です。
+You can generate text by specifying a working directory where the trained weights (checkpoints) are saved and the configuration file.
 
 ```
 python3 generate_text.py --workdir=$HOME/logs/japanese_0.1b_v1 \
@@ -183,28 +181,28 @@ I0711 07:22:50.240439 140565925375040 train.py:344] Sample: 夏目漱石は、�
 ```
 
 ---
-### テキスト生成 (HuggingFaceから重みをダウンロード)
+### Text Generation (Download weights from HuggingFace)
 
-ここでは、GCP上の以下のようなCPUインスタンスでPython 3.10環境を構築してテキスト生成する手順を紹介します。
+Here, we explain the procedure to generate text from pretrained weights using a CPU. We used the following instance on GCP for the Python 3.10 environment.
 
-* マシンタイプ: c2-standard-4 (4 CPUs, 16GB Memory)
-* ディスク: 100GB (標準永続ディスク)
+* Machine Type: c2-standard-4 (4 CPUs, 16GB Memory)
+* Disk: 100GB (Standard Persistent Disk)
 * OS: Ubuntu 22.04 LTS x86/64
 
-Python 3.10とpipをインストールします。
+Install Python 3.10 and pip.
 
 ```
 sudo apt-get update
 sudo apt-get install python3.10 python3-pip build-essential
 ```
 
-huggingface_hubをインストールします。
+Install the huggingface_hub library.
 
 ```
 pip install --upgrade huggingface_hub
 ```
 
-ホームディレクトリに移動して、Pythonインタープリターを起動し、重みとトークンナイザーをダウンロードします。
+Run the Python interpreter and download the model files.
 
 ```
 cd $HOME
@@ -217,7 +215,7 @@ python3
 >>> hf_hub_download(repo_id="fukugawa/transformer-lm-japanese-0.1b", filename="checkpoint_499999", revision="v1", local_dir="./logs/japanese_0.1b_v1")
 ```
 
-ソースコードをクローンして、必要なPythonパッケージをインストールします。
+Clone the source code and install the necessary Python packages.
 
 ```
 git clone -b 1.0.0.RC3 https://github.com/FookieMonster/transformer-lm-japanese
@@ -225,14 +223,14 @@ cd ./transformer-lm-japanese/transformer_lm
 pip install -r requirements.txt
 ```
 
-CPUで実行するために必要なパッケージをインストールします。
+Install the necessary Python packages to run on the CPU.
 
 ```
 pip install jax[cpu]==0.4.13
 pip install protobuf==3.20.3
 ```
 
-重みのあるワークディレクトリを指定してテキスト生成を行います。
+Pass the directory with the weights as an argument to generate text.
 
 ```
 python3 generate_text.py --workdir=$HOME/logs/japanese_0.1b_v1 \
