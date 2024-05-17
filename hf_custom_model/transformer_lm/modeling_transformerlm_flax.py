@@ -278,6 +278,32 @@ class FlaxTransformerLMPreTrainedModel(FlaxPreTrainedModel):
       **kwargs,
   ):
     module = self.module_class(config=config, dtype=dtype, **kwargs)
+
+    def token_id_to_logits(state, token_id):
+      logits, cache = state
+      output = self.module.apply(
+        {
+          "params": self.params,
+          "cache": cache
+        },
+        token_id,
+        None,
+        None,
+        True,
+        False,
+        False,
+        False,
+        True,
+        rngs={},
+        mutable=["cache"],
+      )
+      lm_output, new_vars = output
+      logits = lm_output.logits
+      cache = unfreeze(new_vars["cache"])
+      return (logits, cache), logits
+
+    self.scan_body_fn = token_id_to_logits
+
     super().__init__(config, module, input_shape=input_shape, seed=seed, dtype=dtype, _do_init=_do_init)
 
   def init_weights(self, rng: jax.random.PRNGKey, input_shape: Tuple, params: FrozenDict = None) -> FrozenDict:
@@ -366,37 +392,17 @@ class FlaxTransformerLMPreTrainedModel(FlaxPreTrainedModel):
     if input_ids.shape[1] > 1:
       input_ids = jnp.insert(input_ids, 0, 0, axis=1) # Insert 0 at the beginning of prompt
 
-    # Progressive cache loop
     if self.module.use_cache:
-      def loop_body_fn(i, state):
-        logits, cache = state
-        input_id = lax.dynamic_slice(input_ids, (0, i), (input_ids.shape[0], 1))
-        output = self.module.apply(
-          {
-            "params": inputs["params"],
-            "cache": cache
-          },
-          jnp.array(input_id, dtype="i4"),
-          jnp.array(attention_mask, dtype="i4"),
-          jnp.array(position_ids, dtype="i4"),
-          not train,
-          False,
-          output_attentions,
-          output_hidden_states,
-          return_dict,
-          rngs=rngs,
-          mutable=mutable,
-        )
-        lm_output, new_vars = output
-        logits = lm_output.logits
-        cache = new_vars["cache"]
-        return logits, unfreeze(cache)
-
+      # Progressive cache loop
       seq_length = input_ids.shape[1]
-      logits = jnp.zeros((1, 1, self.module.config.vocab_size), dtype=self.dtype)
+      vcab_size = self.module.config.vocab_size
+      logits = jnp.zeros((1, 1, vcab_size), dtype=self.dtype)
       cache = inputs["cache"]
       initial_state = (logits, cache)
-      last_logits, last_cache = lax.fori_loop(0, seq_length, loop_body_fn, initial_state)
+      input_tokens = jnp.reshape(input_ids, (seq_length, 1, 1))
+      last, all_logits = lax.scan(self.scan_body_fn, initial_state, input_tokens)
+      last_logits, last_cache = last
+      # lm_logits = jnp.reshape(all_logits, (1, seq_length, vcab_size))
 
       if not return_dict:
         outputs = (last_logits,) + (last_cache,)
@@ -454,7 +460,6 @@ class FlaxTransformerLMModule(nn.Module):
                      for i in range(config.num_layers)]
     self.ln_f = nn.LayerNorm(dtype=config.dtype, name='encoderdecoder_norm')
 
-  @nn.compact
   def __call__(
       self,
       input_ids,
@@ -543,7 +548,6 @@ class FlaxTransformerLMForCausalLMModule(nn.Module):
       name='logitdense',
     )
 
-  @nn.compact
   def __call__(
       self,
       input_ids,
