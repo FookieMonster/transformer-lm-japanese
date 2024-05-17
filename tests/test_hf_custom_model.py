@@ -96,6 +96,28 @@ class TestFlaxTransformerLMForCausalLM(unittest.TestCase):
 
     self.printTopNTokens(logits, self.tokenizer, 10)
 
+  def test_log_likelihood(self):
+    texts = [
+      "日本の首都は東京",
+      "日本の首都はニューヨーク",
+      "日本の首都はロンドン",
+      "日本の首都は京都",
+    ]
+    likelihoods = []
+
+    for text in texts:
+      tokens = self.tokenizer.encode(text, return_tensors="jax", add_special_tokens=False)
+      outputs = self.model(tokens)
+      logits = outputs.logits
+
+      probs = jax.nn.softmax(logits, axis=-1)
+      true_probs = jnp.log(jnp.take_along_axis(probs, tokens[:, :, None], axis=-1).squeeze(-1))
+      likelihood = jnp.sum(true_probs, axis=-1)
+      likelihoods.append(likelihood.item())
+
+    for (text, likelihood) in zip(texts, likelihoods):
+      print(f"Log Likelihood for '{text}': {likelihood}")
+
   def test_text_generation_by_sampling(self):
     input_text = "日本の首都は、"
     input_ids = self.tokenizer.encode(input_text, return_tensors="jax", add_special_tokens=False)
