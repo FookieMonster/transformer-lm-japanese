@@ -368,10 +368,6 @@ class FlaxTransformerLMPreTrainedModel(FlaxPreTrainedModel):
 
     # Progressive cache loop
     if self.module.use_cache:
-      batch_size, seq_length = input_ids.shape
-      shape = (batch_size, seq_length, self.module.config.vocab_size)
-      logits = jnp.zeros(shape, dtype=self.dtype)
-
       def loop_body_fn(i, state):
         logits, cache = state
         input_id = lax.dynamic_slice(input_ids, (0, i), (input_ids.shape[0], 1))
@@ -392,22 +388,20 @@ class FlaxTransformerLMPreTrainedModel(FlaxPreTrainedModel):
           mutable=mutable,
         )
         lm_output, new_vars = output
-        logits = logits.at[:, i, :].set(lm_output.logits.squeeze(1))
-        return logits, new_vars["cache"]
+        logits = lm_output.logits
+        cache = new_vars["cache"]
+        return logits, unfreeze(cache)
 
-      cache = freeze(inputs["cache"])
+      seq_length = input_ids.shape[1]
+      logits = jnp.zeros((1, 1, self.module.config.vocab_size), dtype=self.dtype)
+      cache = inputs["cache"]
       initial_state = (logits, cache)
       lm_logits, lm_cache = lax.fori_loop(0, seq_length, loop_body_fn, initial_state)
 
-      if seq_length > 1:
-        lm_logits = lm_logits[:, 1:, :] # Ignore leading zeros in prompts
-
-      lm_cache = {"cache": lm_cache}
-
       if not return_dict:
-        outputs = (lm_logits,) + lm_cache["cache"]
+        outputs = (lm_logits,) + (lm_cache,)
       else:
-        outputs = (FlaxCausalLMOutput(logits=lm_logits, hidden_states=None, attentions=None), lm_cache)
+        outputs = (FlaxCausalLMOutput(logits=lm_logits, hidden_states=None, attentions=None), {"cache": lm_cache})
     else:
       output = self.module.apply(
         inputs,
