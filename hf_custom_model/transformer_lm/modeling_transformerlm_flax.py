@@ -402,12 +402,12 @@ class FlaxTransformerLMPreTrainedModel(FlaxPreTrainedModel):
       input_tokens = jnp.reshape(input_ids, (seq_length, 1, 1))
       last, all_logits = lax.scan(self.scan_body_fn, initial_state, input_tokens)
       last_logits, last_cache = last
-      # lm_logits = jnp.reshape(all_logits, (1, seq_length, vcab_size))
+      lm_logits = jnp.reshape(all_logits, (1, seq_length, vcab_size))
 
       if not return_dict:
-        outputs = (last_logits,) + (last_cache,)
+        outputs = (lm_logits,) + (last_cache,)
       else:
-        outputs = (FlaxCausalLMOutput(logits=last_logits, hidden_states=None, attentions=None), {"cache": last_cache})
+        outputs = (FlaxCausalLMOutput(logits=lm_logits, hidden_states=None, attentions=None), {"cache": last_cache})
     else:
       output = self.module.apply(
         inputs,
