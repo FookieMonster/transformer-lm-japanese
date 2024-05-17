@@ -16,6 +16,11 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 その他の詳細な情報は、こちらの[技術ブログ](https://zenn.dev/fukugawa/articles/4446573ec0f697)でも公開しています。
 
 ---
+### 更新履歴
+
+* 2024/05/13 FlaxAutoModelForCausalLMに対応したカスタムモデルコード(hf_custom_model)を追加
+
+---
 ### モデルの概要
 
 #### トレーニング環境
@@ -185,13 +190,13 @@ I0711 07:22:50.240439 140565925375040 train.py:344] Sample: 夏目漱石は、�
 ---
 ### テキスト生成 (HuggingFaceから重みをダウンロード)
 
-ここでは、GCP上の以下のようなCPUインスタンスでPython 3.10環境を構築してテキスト生成する手順を紹介します。
+GCP上の以下のようなCPUインスタンスで、Python 3.10環境を構築してテキスト生成する手順です。
 
 * マシンタイプ: c2-standard-4 (4 CPUs, 16GB Memory)
 * ディスク: 100GB (標準永続ディスク)
 * OS: Ubuntu 22.04 LTS x86/64
 
-Python 3.10とpipをインストールします。
+まず、Python 3.10とpipをインストールします。
 
 ```
 sudo apt-get update
@@ -204,12 +209,14 @@ huggingface_hubをインストールします。
 pip install --upgrade huggingface_hub
 ```
 
-ホームディレクトリに移動して、Pythonインタープリターを起動し、重みとトークンナイザーをダウンロードします。
+ホームディレクトリに移動して、Pythonインタープリターを起動。
 
 ```
 cd $HOME
 python3
 ```
+
+重みとトークンナイザをダウンロードします。
 
 ```python
 >>> from huggingface_hub import hf_hub_download
@@ -225,14 +232,14 @@ cd ./transformer-lm-japanese/transformer_lm
 pip install -r requirements.txt
 ```
 
-CPUで実行するために必要なパッケージをインストールします。
+CPUで実行するために必要なパッケージもインストールします。
 
 ```
 pip install jax[cpu]==0.4.13
 pip install protobuf==3.20.3
 ```
 
-重みのあるワークディレクトリを指定してテキスト生成を行います。
+学習済みの重み（チェックポイント）が保存されているワークディレクトリと設定ファイルを指定してテキストを生成することが可能です。
 
 ```
 python3 generate_text.py --workdir=$HOME/logs/japanese_0.1b_v1 \
