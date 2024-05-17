@@ -396,12 +396,12 @@ class FlaxTransformerLMPreTrainedModel(FlaxPreTrainedModel):
       logits = jnp.zeros((1, 1, self.module.config.vocab_size), dtype=self.dtype)
       cache = inputs["cache"]
       initial_state = (logits, cache)
-      lm_logits, lm_cache = lax.fori_loop(0, seq_length, loop_body_fn, initial_state)
+      last_logits, last_cache = lax.fori_loop(0, seq_length, loop_body_fn, initial_state)
 
       if not return_dict:
-        outputs = (lm_logits,) + (lm_cache,)
+        outputs = (last_logits,) + (last_cache,)
       else:
-        outputs = (FlaxCausalLMOutput(logits=lm_logits, hidden_states=None, attentions=None), {"cache": lm_cache})
+        outputs = (FlaxCausalLMOutput(logits=last_logits, hidden_states=None, attentions=None), {"cache": last_cache})
     else:
       output = self.module.apply(
         inputs,
