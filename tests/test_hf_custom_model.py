@@ -1,4 +1,5 @@
 import os
+import textwrap
 import unittest
 
 import jax
@@ -122,14 +123,50 @@ class TestFlaxTransformerLMForCausalLM(unittest.TestCase):
     input_text = "日本の首都は、"
     input_ids = self.tokenizer.encode(input_text, return_tensors="jax", add_special_tokens=False)
     output = self.model.generate(input_ids, do_sample=True, temperature=0.6, top_k=20, max_length=100)
-    generated_text = self.tokenizer.decode(output[0].flatten(), skip_special_tokens=True)
+    generated_text = self.tokenizer.decode(output[0][0], skip_special_tokens=True)
     print(generated_text)
 
   def test_text_generation_by_greedy_search(self):
-    input_text = "与えられた選択肢の中から、最適な答えを選んでください。\n\n質問：生理現象なのは？\n選択肢：\n- 準備する\n- おしっこする\n- 風\n- 雨\n- ベッドに入る\n回答："
+    input_text = "日本の首都は、"
     input_ids = self.tokenizer.encode(input_text, return_tensors="jax", add_special_tokens=False)
     output = self.model.generate(input_ids, do_sample=False, max_length=100)
-    generated_text = self.tokenizer.decode(output[0].flatten(), skip_special_tokens=True)
+    generated_text = self.tokenizer.decode(output[0][0], skip_special_tokens=True)
+    print(generated_text)
+
+  def test_text_generation_with_jcommonsenseqa(self):
+    input_text = textwrap.dedent("""
+      与えられた選択肢の中から、最適な答えを選んでください。
+      
+      質問：生理現象なのは？
+      選択肢：
+      - 準備する
+      - おしっこする
+      - 風
+      - 雨
+      - ベッドに入る
+      回答：
+    """)
+    input_ids = self.tokenizer.encode(input_text, return_tensors="jax", add_special_tokens=False)
+    output = self.model.generate(input_ids, do_sample=False, max_new_tokens=100)
+    generated_text = self.tokenizer.decode(output[0][0], skip_special_tokens=True)
+    print(generated_text)
+
+  def test_text_generation_with_jsquad(self):
+    input_text = textwrap.dedent("""
+      以下は、タスクを説明する指示と、文脈のある入力の組み合わせです。要求を適切に満たす応答を書きなさい。
+      
+      ### 指示:
+      与えられた文脈から、質問に対する答えを抜き出してください。
+      
+      ### 入力:
+      文脈：リスボン、ポルト、ファロがおもな国際空港。またこれらの空港から、マデイラ諸島やアソーレス諸島などの離島への路線も出ている。
+      質問：マデイラ諸島やアソーレス諸島などの離島への路線も出ているのは？
+      
+      ### 応答:
+    """)
+    input_ids = self.tokenizer.encode(input_text, return_tensors="jax", add_special_tokens=False)
+    output = self.model.generate(input_ids, do_sample=False, max_new_tokens=100)
+    generated_text = self.tokenizer.decode(output[0][0], skip_special_tokens=True)
     print(generated_text)
 
   @staticmethod
