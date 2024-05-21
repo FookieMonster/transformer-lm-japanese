@@ -119,6 +119,31 @@ class TestFlaxTransformerLMForCausalLM(unittest.TestCase):
     for (text, likelihood) in zip(texts, likelihoods):
       print(f"Log Likelihood for '{text}': {likelihood}")
 
+  def test_greedy_search(self):
+    max_length = 20
+    input_text = "日本の首都は、"
+    input_ids = self.tokenizer.encode(input_text, return_tensors="jax", add_special_tokens=False)
+
+    model_kwargs = self.model.prepare_inputs_for_generation(input_ids, max_length, None)
+
+    sequences = input_ids
+    running_token = input_ids
+
+    for i in range(max_length):
+      model_outputs = self.model(running_token, params=None, **model_kwargs)
+      logits = model_outputs.logits[:, -1]
+
+      next_token = jnp.argmax(logits, axis=-1)
+      sequences = jnp.append(sequences, next_token)
+      running_token = jnp.array([next_token])
+
+      model_kwargs = self.model.update_inputs_for_generation(model_outputs, model_kwargs)
+
+    print(sequences)
+
+    generated_text = self.tokenizer.decode(sequences, skip_special_tokens=True)
+    print(generated_text)
+
   def test_text_generation_by_sampling(self):
     input_text = "日本の首都は、"
     input_ids = self.tokenizer.encode(input_text, return_tensors="jax", add_special_tokens=False)
