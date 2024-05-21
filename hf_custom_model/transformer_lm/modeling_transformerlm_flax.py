@@ -404,6 +404,9 @@ class FlaxTransformerLMPreTrainedModel(FlaxPreTrainedModel):
       last_logits, last_cache = last
       lm_logits = jnp.reshape(all_logits, (1, seq_length, vcab_size))
 
+      if input_ids.shape[1] > 1:
+        lm_logits = lm_logits[:, 1:, :] # Ignore leading zeros in prompts
+
       if not return_dict:
         outputs = (lm_logits,) + (last_cache,)
       else:
@@ -423,6 +426,7 @@ class FlaxTransformerLMPreTrainedModel(FlaxPreTrainedModel):
         mutable=mutable,
       )
       lm_logits = output.logits
+
       if input_ids.shape[1] > 1:
         lm_logits = lm_logits[:, 1:, :] # Ignore leading zeros in prompts
 
