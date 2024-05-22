@@ -19,7 +19,7 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 #### 更新履歴
 
 * 2024/05/20 JGLUE 4-taskのベンチマーク結果を追加
-* 2024/05/13 FlaxAutoModelForCausalLMに対応したカスタムモデルコード(hf_custom_model)を追加
+* 2024/05/13 FlaxAutoModelForCausalLMに対応したカスタムモデルコードを追加(hf_custom_model)
 
 ---
 #### モデルの概要
