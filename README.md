@@ -42,7 +42,7 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 | Model | Average | JCommonsenseQA | JNLI | MARC-ja | JSQuAD |
 | :-- | :-- | :-- | :-- | :-- | :-- |
 | [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | 41.41 | 35.21 | 43.59 | 78.63 | 8.24 |
-| rinna/japanese-gpt-neox-small（参考値） | 40.75 | 40.39 | 29.13 | 85.48 | 8.02 |
+| rinna/japanese-gpt-neox-small (参考) | 40.75 | 40.39 | 29.13 | 85.48 | 8.02 |
 
 ---
 
