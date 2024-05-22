@@ -36,7 +36,7 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 
     - *[Stability-AI/lm-evaluation-harness](https://github.com/Stability-AI/lm-evaluation-harness)をフォークしてFlaxAutoModelに対応させた[コード](https://github.com/FookieMonster/lm-evaluation-harness)で評価*
     - *評価タスク: JCommonsenseQA-1.1、JNLI-1.3、MARC-ja-1.1、JSQuAD-1.1*
-    - *プロンプトテンプレートのバージョンは0.3で、zero-shot（0,0,0,0）で評価*
+    - *プロンプトテンプレートのバージョンは0.3（Alpaca形式）で、zero-shot（0,0,0,0）で評価*
     - *評価に使用したカスタムモデルのrevisionは[こちら](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b/commit/fe82d0f1366af71df8f8b383bf8de9ab6b0030be)*
 
 | Model | Average | JCommonsenseQA | JNLI | MARC-ja | JSQuAD |
