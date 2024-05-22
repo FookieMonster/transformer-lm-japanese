@@ -19,7 +19,7 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 #### 更新履歴
 
 * 2024/05/20 JGLUE 4-taskのベンチマーク結果を追加
-* 2024/05/13 FlaxAutoModelForCausalLMに対応したカスタムモデルコードを追加(hf_custom_model)
+* 2024/05/13 FlaxAutoModelForCausalLMに対応したカスタムモデルコードを追加 (hf_custom_model)
 
 ---
 #### モデルの概要
@@ -266,3 +266,11 @@ python3 generate_text.py --workdir=$HOME/logs/japanese_0.1b_v1 \
     --config.prompts="夏目漱石は、" \
     --num_generated_texts=10
 ```
+
+---
+
+#### テキスト生成 (FlaxAutoModelForCausalLM)
+
+HuggingFaceのtransformersライブラリのFlaxAutoModelForCausalLMにも対応しています。
+
+テキスト生成の手順は[こちら](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b#usage-flaxautomodel)のドキュメントを参照ください。
