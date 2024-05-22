@@ -31,8 +31,7 @@ For more details, see our [blog post](https://zenn.dev/fukugawa/articles/4446573
     - *We used [Stability-AI/lm-evaluation-harness](https://github.com/Stability-AI/lm-evaluation-harness) library for evaluation.*
     - *We modified the harness to work with the FlaxAutoModel for evaluating JAX/Flax models. See the code [here](https://github.com/FookieMonster/lm-evaluation-harness).*
     - *We evaluated four tasks: JCommonsenseQA-1.1, JNLI-1.3, MARC-ja-1.1, and JSQuAD-1.1.*
-    - *All evaluations used version 0.3 of the prompt template and were zero-shot.*
-    - *The number of few-shots is 0,0,0,0.*
+    - *All evaluations used version 0.3 (Alpaca) of the prompt template and were zero-shot (0,0,0,0).*
     - *The revision of the custom model used: [here](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b/commit/fe82d0f1366af71df8f8b383bf8de9ab6b0030be).*
    
 | Model | Average | JCommonsenseQA | JNLI | MARC-ja | JSQuAD |
@@ -49,8 +48,6 @@ For more details, see our [blog post](https://zenn.dev/fukugawa/articles/4446573
 | lm1b-default | TPU v3-8 | 1.0.0.RC1 | lm1b_default | lm1b | Reproduction of the original |
 | transformer-lm-japanese-default | TPU v3-8 | 1.0.0.RC1 | japanese_default_v1 | cc100/ja | 6 layers |
 | [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | TPU v3-8 | 1.0.0.RC1 | japanese_0.1b_v1 | wiki40b/ja | 12 layers, referring to GPT-2 small |
-
-#### TensorBoard
 
 <img src="/images/tensorboard-2.png" width="860">
 
@@ -259,3 +256,11 @@ python3 generate_text.py --workdir=$HOME/logs/japanese_0.1b_v1 \
     --config.prompts="夏目漱石は、" \
     --num_generated_texts=10
 ```
+
+---
+
+### Text Generation (FlaxAutoModelForCausalLM)
+
+We also support the FlaxAutoModelForCausalLM from the HuggingFace transformers library.
+
+Please refer to [this](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b#usage-flaxautomodel) document for the text generation process.
