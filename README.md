@@ -16,12 +16,35 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 その他の詳細な情報は、こちらの[技術ブログ](https://zenn.dev/fukugawa/articles/4446573ec0f697)でも公開しています。
 
 ---
-### 更新履歴
+#### 更新履歴
 
+* 2024/05/20 JGLUE 4-taskのベンチマーク結果を追加
 * 2024/05/13 FlaxAutoModelForCausalLMに対応したカスタムモデルコード(hf_custom_model)を追加
 
 ---
-### モデルの概要
+#### モデルの概要
+
+| Model | Params | Layers | Dim | Heads | Loss | PPL | Training time |
+|-|-|-|-|-|-|-|-|
+| lm1b-default | 0.05B | 6 | 512 | 8 | 3.121 | 22.67 | 0.5 days |
+| transformer-lm-japanese-default | 0.05B | 6 | 512 | 8 | 4.195 | 66.38 | 0.5 days |
+| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | 0.1B | 12 | 768 | 12 | 3.562 | 35.22 | 1.5 days |
+
+#### ベンチマーク結果
+
+* **JGLUE 4-task (2024/05/22)**
+
+    - *[Stability-AI/lm-evaluation-harness](https://github.com/Stability-AI/lm-evaluation-harness)をフォークしてFlaxAutoModelに対応させた[コード](https://github.com/FookieMonster/lm-evaluation-harness)で評価*
+    - *評価タスク: JCommonsenseQA-1.1、JNLI-1.3、MARC-ja-1.1、JSQuAD-1.1*
+    - *プロンプトテンプレートのバージョンは0.3で、zero-shot（0,0,0,0）で評価*
+    - *評価に使用したカスタムモデルのrevisionは[こちら](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b/commit/fe82d0f1366af71df8f8b383bf8de9ab6b0030be)*
+
+| Model | Average | JCommonsenseQA | JNLI | MARC-ja | JSQuAD |
+| :-- | :-- | :-- | :-- | :-- | :-- |
+| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | 41.41 | 35.21 | 43.59 | 78.63 | 8.24 |
+| rinna/japanese-gpt-neox-small（参考値） | 40.75 | 40.39 | 29.13 | 85.48 | 8.02 |
+
+---
 
 #### トレーニング環境
 
@@ -31,17 +54,11 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 | transformer-lm-japanese-default | TPU v3-8 | 1.0.0.RC1 | japanese_default_v1 | cc100/ja | オリジナルと同じ6層 |
 | [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | TPU v3-8 | 1.0.0.RC1 | japanese_0.1b_v1 | wiki40b/ja | GPT-2 samllを参考に12層 |
 
-#### トレーニング結果
-
-| Model | Params | Layers | Dim | Heads | Loss | PPL | Training time |
-|-|-|-|-|-|-|-|-|
-| lm1b-default | 0.05B | 6 | 512 | 8 | 3.121 | 22.67 | 0.5 days |
-| transformer-lm-japanese-default | 0.05B | 6 | 512 | 8 | 4.195 | 66.38 | 0.5 days |
-| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | 0.1B | 12 | 768 | 12 | 3.562 | 35.22 | 1.5 days |
-
 #### TensorBoard
 
 <img src="/images/tensorboard-2.png" width="860">
+
+---
 
 #### トークンナイザー
 
