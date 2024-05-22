@@ -7,11 +7,11 @@
     <p>
 </h4>
 
-日本語のデータセットで学習するJAX/FlaxベースのTransformer言語モデルです。Flax公式のサンプルコード（lm1b）をベースにしています。
+日本語のデータセットで学習するJAX/FlaxベースのTransformer言語モデルです。Flax公式のサンプルコード（[lm1b](https://github.com/google/flax/tree/main/examples/lm1b)）をベースにしています。
 
-Flaxの公式サンプルコードには、Transformerのデコーダー型の言語モデルである[lm1b](https://github.com/google/flax/tree/main/examples/lm1b)が存在します。その元々のサンプルコードは英文データセットの[One Billion Word Benchmark](https://arxiv.org/abs/1312.3005)で学習が行われていますが、本リポジトリではそのコードを一部修正し、日本語データセットを用いて言語モデルの学習が可能となっています。
+Flaxの公式サンプルコードには、Transformerのデコーダー型の言語モデルであるlm1bが存在します。その元々のサンプルコードは英文データセットの[One Billion Word Benchmark](https://arxiv.org/abs/1312.3005)で学習が行われていますが、本リポジトリではそのコードを一部修正し、日本語データセットを用いて言語モデルの学習が可能となっています。
 
-このリポジトリには、日本語データセットを使用して言語モデルを訓練するためのコードと、その設定ファイルが含まれています。学習済みの重みからテキストを生成するコードも含まれています。学習済みの重み（チェックポイント）は、[Hugging Faceのモデルハブ](https://huggingface.co/fukugawa)からダウンロードすることもできます。
+このリポジトリには、日本語データセットを使用して言語モデルを訓練するためのコードと、その設定ファイルが含まれています。学習済みの重みからテキストを生成するコードも含まれています。学習済みの重み（チェックポイント）は、Hugging Faceの[モデルハブ](https://huggingface.co/fukugawa)からダウンロードすることもできます。
 
 その他の詳細な情報は、こちらの[技術ブログ](https://zenn.dev/fukugawa/articles/4446573ec0f697)でも公開しています。
 
