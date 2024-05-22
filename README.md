@@ -54,8 +54,6 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 | transformer-lm-japanese-default | TPU v3-8 | 1.0.0.RC1 | japanese_default_v1 | cc100/ja | オリジナルと同じ6層 |
 | [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | TPU v3-8 | 1.0.0.RC1 | japanese_0.1b_v1 | wiki40b/ja | GPT-2 samllを参考に12層 |
 
-#### TensorBoard
-
 <img src="/images/tensorboard-2.png" width="860">
 
 ---
@@ -103,7 +101,7 @@ class DatasetPreprocessor:
 ```
 ---
 
-### Cloud TPUによるトレーニング手順
+#### Cloud TPUによるトレーニング手順
 
 TPU-VMの作成
 
@@ -162,12 +160,12 @@ python3 main.py --workdir=$HOME/logs/japanese_0.1b_v1 --config=configs/japanese_
 ```
 
 ---
-### Cloud TPUによるトレーニング手順（Googleクラウドストレージ版）
+#### Cloud TPUによるトレーニング手順（Googleクラウドストレージ版）
 
 ワークディレクトリやデータセットのディレクトリをGCSにする場合のトレーニング手順は[こちら](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/docs/train_with_gcs.md)を参照
 
 ---
-### テキスト生成
+#### テキスト生成
 
 学習済みの重み（チェックポイント）が保存されているワークディレクトリと設定ファイルを指定してテキストを生成することが可能です。
 
@@ -205,7 +203,8 @@ I0711 07:22:50.240439 140565925375040 train.py:344] Sample: 夏目漱石は、�
 ```
 
 ---
-### テキスト生成 (HuggingFaceから重みをダウンロード)
+
+#### テキスト生成 (HuggingFaceから重みをダウンロード)
 
 GCP上の以下のようなCPUインスタンスで、Python 3.10環境を構築してテキスト生成する手順です。
 
