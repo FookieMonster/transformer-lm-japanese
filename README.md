@@ -24,9 +24,9 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 ---
 #### モデル概要
 
-| Model | Params | Layers | Dim | Heads | Loss | PPL | Note |
+| Model | Params | Layers | Dim | Heads | Loss | PPL | Dataset |
 |-|-|-|-|-|-|-|-|
-| lm1b-default | 0.05B | 6 | 512 | 8 | 3.121 | 22.67 | オリジナルの再現 |
+| lm1b-default | 0.05B | 6 | 512 | 8 | 3.121 | 22.67 | lm1b |
 | transformer-lm-japanese-default | 0.05B | 6 | 512 | 8 | 4.195 | 66.38 | cc100/ja |
 | [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | 0.1B | 12 | 768 | 12 | 3.562 | 35.22 | wiki40b/ja |
 
