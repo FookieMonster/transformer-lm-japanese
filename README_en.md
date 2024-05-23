@@ -53,7 +53,13 @@ For more details, see our [blog post](https://zenn.dev/fukugawa/articles/4446573
 
 ---
 
-#### Tokenizer
+#### About Support for Japanese Datasets
+
+The main code modifications made to train with Japanese datasets are the following three points:
+
+Please refer to [this](https://github.com/FookieMonster/transformer-lm-japanese/commit/4999bf90d27b148bc0aea8ef3746dab8150ddbc2) commit log for detailed changes.
+
+#### 1. Tokenizer
 
 The tokenizer uses SentencePiece, the same as the original, for subword learning. However, to easily add options specific to Japanese without modifying the source code, the following configuration item (config.spm_train_options) has been added so that they can be added simply from the configuration file.
 
@@ -61,7 +67,7 @@ The tokenizer uses SentencePiece, the same as the original, for subword learning
 config.spm_train_options = "--character_coverage=0.9995 --byte_fallback=true"
 ```
 
-#### Dataset
+#### 2. Dataset
 
 The dataset uses data from TensorFlow Datasets, the same as the original.
 The Japanese dataset currently supports the following two types:
@@ -79,7 +85,7 @@ config.eval_dataset_name = "huggingface:cc100/lang=ja"
 config.eval_split = "train[98%:]"
 ```
 
-#### Preprocessing
+#### 2. Preprocessing
 
 The dataset_preprocessor.py performs on-the-fly preprocessing of the Japanese dataset.
 If you want to support Japanese datasets other than the above two types, you can easily adapt by adding preprocessor code for preprocessing to the dataset_preprocessor.py.
