@@ -22,13 +22,13 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 * 2024/05/13 FlaxAutoModelForCausalLMに対応したカスタムモデルコードを追加 (hf_custom_model)
 
 ---
-#### モデルの概要
+#### モデル概要
 
-| Model | Params | Layers | Dim | Heads | Loss | PPL | Training time |
+| Model | Params | Layers | Dim | Heads | Loss | PPL | Note |
 |-|-|-|-|-|-|-|-|
-| lm1b-default | 0.05B | 6 | 512 | 8 | 3.121 | 22.67 | 0.5 days |
-| transformer-lm-japanese-default | 0.05B | 6 | 512 | 8 | 4.195 | 66.38 | 0.5 days |
-| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | 0.1B | 12 | 768 | 12 | 3.562 | 35.22 | 1.5 days |
+| lm1b-default | 0.05B | 6 | 512 | 8 | 3.121 | 22.67 | オリジナルの再現 |
+| transformer-lm-japanese-default | 0.05B | 6 | 512 | 8 | 4.195 | 66.38 | オリジナルと同じ6層 |
+| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | 0.1B | 12 | 768 | 12 | 3.562 | 35.22 | GPT-2 samllを参考に12層 |
 
 #### ベンチマーク結果
 
@@ -46,13 +46,13 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 
 ---
 
-#### トレーニング環境
+#### トレーニング概要
 
-| Model | Hardware | Code | Config | Dataset | Note |
+| Model | Hardware | Code | Config | Dataset | Training time |
 |-|-|-|-|-|-|
-| lm1b-default | TPU v3-8 | 1.0.0.RC1 | lm1b_default | lm1b | オリジナルの再現 |
-| transformer-lm-japanese-default | TPU v3-8 | 1.0.0.RC1 | japanese_default_v1 | cc100/ja | オリジナルと同じ6層 |
-| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | TPU v3-8 | 1.0.0.RC1 | japanese_0.1b_v1 | wiki40b/ja | GPT-2 samllを参考に12層 |
+| lm1b-default | TPU v3-8 | 1.0.0.RC1 | lm1b_default | lm1b | 0.5 days |
+| transformer-lm-japanese-default | TPU v3-8 | 1.0.0.RC1 | japanese_default_v1 | cc100/ja | 0.5 days |
+| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | TPU v3-8 | 1.0.0.RC1 | japanese_0.1b_v1 | wiki40b/ja | 1.5 days |
 
 <img src="/images/tensorboard-2.png" width="860">
 
