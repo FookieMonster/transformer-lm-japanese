@@ -27,8 +27,8 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 | Model | Params | Layers | Dim | Heads | Loss | PPL | Note |
 |-|-|-|-|-|-|-|-|
 | lm1b-default | 0.05B | 6 | 512 | 8 | 3.121 | 22.67 | オリジナルの再現 |
-| transformer-lm-japanese-default | 0.05B | 6 | 512 | 8 | 4.195 | 66.38 | オリジナルと同じ6層 |
-| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | 0.1B | 12 | 768 | 12 | 3.562 | 35.22 | GPT-2 samllを参考に12層 |
+| transformer-lm-japanese-default | 0.05B | 6 | 512 | 8 | 4.195 | 66.38 | cc100/ja |
+| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | 0.1B | 12 | 768 | 12 | 3.562 | 35.22 | wiki40b/ja |
 
 #### ベンチマーク結果
 
