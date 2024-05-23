@@ -58,7 +58,12 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 
 ---
 
-#### トークンナイザー
+#### 日本語データセット対応について
+
+日本語データセットで学習するために行った、主なコード修正の内容は以下の３点です。
+詳細な変更箇所は[こちら](https://github.com/FookieMonster/transformer-lm-japanese/commit/4999bf90d27b148bc0aea8ef3746dab8150ddbc2)のコミットログを参照ください。
+
+#### 1. トークンナイザー
 
 トークンナイザーはオリジナルと同じくSentencePieceを使ってサブワードの学習を行っていますが、日本語特有なオプションをソースコードを修正することなく、設定ファイルから簡単に追加できるように以下の設定項目（config.spm_train_options）を追加しています。
 
@@ -66,7 +71,7 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 config.spm_train_options = "--character_coverage=0.9995 --byte_fallback=true"
 ```
 
-#### データセット
+#### 2. データセット
 
 データセットはオリジナルと同じくTensorFlow Datasetsのデータを使っています。  
 日本語データセットは、現在のところ以下の２種類に対応しています。
@@ -84,7 +89,7 @@ config.eval_dataset_name = "huggingface:cc100/lang=ja"
 config.eval_split = "train[98%:]"
 ```
 
-#### 前処理
+#### 3. 前処理
 
 dataset_preprocessor.pyで日本語データセットの前処理をオンザフライに行います。  
 上記２種類以外の日本語データセットに対応したい場合、dataset_preprocessor.pyに前処理用のプリプロセッサコードを追加することで簡単に適応できます。
