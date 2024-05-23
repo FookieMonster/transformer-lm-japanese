@@ -269,7 +269,7 @@ python3 generate_text.py --workdir=$HOME/logs/japanese_0.1b_v1 \
 
 ---
 
-#### テキスト生成 (FlaxAutoModelForCausalLM)
+#### テキスト生成 (FlaxAutoModel)
 
 HuggingFaceのtransformersライブラリのFlaxAutoModelForCausalLMにも対応しています。
 
