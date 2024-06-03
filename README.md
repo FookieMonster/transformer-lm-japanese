@@ -50,9 +50,9 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 
 | Model | Hardware | Code | Config | Dataset | Dataset size | Training time |
 |-|-|-|-|-|-|-|
-| lm1b-default | TPU v3-8 | 1.0.0.RC1 | lm1b_default | lm1b | 4.4 GB | 0.5 days |
-| transformer-lm-japanese-default | TPU v3-8 | 1.0.0.RC1 | japanese_default_v1 | cc100/ja | 82 GB | 0.5 days |
-| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | TPU v3-8 | 1.0.0.RC1 | japanese_0.1b_v1 | wiki40b/ja | 2.19 GB | 1.5 days |
+| lm1b-default | TPU v3-8 | 1.0.0.RC1 | lm1b_default | [lm1b](https://www.tensorflow.org/datasets/catalog/lm1b?hl=ja) | 4.4 GB | 0.5 days |
+| transformer-lm-japanese-default | TPU v3-8 | 1.0.0.RC1 | japanese_default_v1 | [cc100/ja](https://www.tensorflow.org/datasets/community_catalog/huggingface/cc100?hl=ja) | 82 GB | 0.5 days |
+| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | TPU v3-8 | 1.0.0.RC1 | japanese_0.1b_v1 | [wiki40b/ja](https://www.tensorflow.org/datasets/catalog/wiki40b?hl=ja#wiki40bja) | 2.19 GB | 1.5 days |
 
 <img src="/images/tensorboard-2.png" width="860">
 
