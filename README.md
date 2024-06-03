@@ -48,11 +48,11 @@ Flaxの公式サンプルコードには、Transformerのデコーダー型の�
 
 #### トレーニング概要
 
-| Model | Hardware | Code | Config | Dataset | Training time |
-|-|-|-|-|-|-|
-| lm1b-default | TPU v3-8 | 1.0.0.RC1 | lm1b_default | lm1b | 0.5 days |
-| transformer-lm-japanese-default | TPU v3-8 | 1.0.0.RC1 | japanese_default_v1 | cc100/ja | 0.5 days |
-| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | TPU v3-8 | 1.0.0.RC1 | japanese_0.1b_v1 | wiki40b/ja | 1.5 days |
+| Model | Hardware | Code | Config | Dataset | Dataset size | Training time |
+|-|-|-|-|-|-|-|
+| lm1b-default | TPU v3-8 | 1.0.0.RC1 | lm1b_default | lm1b | 4.4 GB | 0.5 days |
+| transformer-lm-japanese-default | TPU v3-8 | 1.0.0.RC1 | japanese_default_v1 | cc100/ja | 82 GB | 0.5 days |
+| [transformer-lm-japanese-0.1b](https://huggingface.co/fukugawa/transformer-lm-japanese-0.1b) | TPU v3-8 | 1.0.0.RC1 | japanese_0.1b_v1 | wiki40b/ja | 2.19 GB | 1.5 days |
 
 <img src="/images/tensorboard-2.png" width="860">
 
