@@ -1,11 +1,6 @@
 # transformer-lm-japanese
 
-<h4 align="center">
-    <p>
-        <b>日本語</b> |
-        <a href="https://github.com/FookieMonster/transformer-lm-japanese/blob/main/README_en.md">English</a>
-    <p>
-</h4>
+**日本語** | [English](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/README_en.md)
 
 日本語のデータセットで学習するJAX/FlaxベースのTransformer言語モデルです。Flax公式のサンプルコード（[lm1b](https://github.com/google/flax/tree/main/examples/lm1b)）をベースにしています。
 
