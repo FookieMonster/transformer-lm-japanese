@@ -1,11 +1,6 @@
 # transformer-lm-japanese
 
-<h4 align="center">
-    <p>
-        <a href="https://github.com/FookieMonster/transformer-lm-japanese">日本語</a> |
-        <b>English</b>
-    <p>
-</h4>
+[日本語](https://github.com/FookieMonster/transformer-lm-japanese) | **English** 
 
 This is a JAX/Flax-based transformer language model trained on a Japanese dataset. It is based on the official Flax example code ([lm1b](https://github.com/google/flax/tree/main/examples/lm1b)).
 
