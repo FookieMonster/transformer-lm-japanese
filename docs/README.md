@@ -1,12 +1,5 @@
 # transformer-lm-japanese
 
-<h4 align="center">
-    <p>
-        <b>日本語</b> |
-        <a href="https://github.com/FookieMonster/transformer-lm-japanese/blob/main/README_en.md">English</a>
-    <p>
-</h4>
-
 日本語のデータセットで学習するJAX/FlaxベースのTransformer言語モデルです。Flax公式のサンプルコード（[lm1b](https://github.com/google/flax/tree/main/examples/lm1b)）をベースにしています。
 
 Flaxの公式サンプルコードには、Transformerのデコーダー型の言語モデルであるlm1bが存在します。その元々のサンプルコードは英文データセットの[One Billion Word Benchmark](https://arxiv.org/abs/1312.3005)で学習が行われていますが、本リポジトリではそのコードを一部修正し、日本語データセットを用いて言語モデルの学習が可能となっています。
