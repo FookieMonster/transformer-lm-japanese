@@ -1,4 +1,4 @@
-**日本語** | [English](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/README_en.md)
+[日本語](https://github.com/FookieMonster/transformer-lm-japanese) | [English](https://github.com/FookieMonster/transformer-lm-japanese/blob/main/README_en.md)
 
 # transformer-lm-japanese
 
