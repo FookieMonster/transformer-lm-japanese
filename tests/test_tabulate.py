@@ -15,7 +15,7 @@ train_config = TransformerConfig(
   num_layers=24,
   qkv_dim=2048,
   mlp_dim=8192,
-  max_len=max(512, 1024),
+  max_len=max(256, 512),
   dropout_rate=0.1,
   attention_dropout_rate=0.1,
   deterministic=False,
@@ -25,7 +25,7 @@ train_config = TransformerConfig(
 
 model = TransformerLM(train_config)
 per_device_batch_size = 32
-max_target_length = 512
+max_target_length = 256
 input_shape = (per_device_batch_size, max_target_length)
 input = jnp.ones(input_shape, jnp.float32)
 init_rngs = {'params': jax.random.PRNGKey(0), 'dropout': jax.random.PRNGKey(1)}

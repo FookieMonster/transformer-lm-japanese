@@ -73,17 +73,17 @@ def get_config():
   config.weight_decay = 0.1
 
   # Maximum length cutoff for training examples.
-  config.max_target_length = 512
+  config.max_target_length = 256
   # Maximum length cutoff for eval examples.
-  config.max_eval_target_length = 1024
+  config.max_eval_target_length = 512
   # Maximum length cutoff for predicted tokens.
-  config.max_predict_length = 1024
+  config.max_predict_length = 512
 
   # Final logit transform uses embedding matrix transpose.
   config.logits_via_embedding = False
 
   # Number of transformer layers.
-  config.num_layers = 24
+  config.num_layers = 18
 
   # Size of query/key/value for attention.
   config.qkv_dim = 2048
