@@ -77,7 +77,7 @@ def get_config():
   # Maximum length cutoff for eval examples.
   config.max_eval_target_length = 512
   # Maximum length cutoff for predicted tokens.
-  config.max_predict_length = 512
+  config.max_predict_length = 50
 
   # Final logit transform uses embedding matrix transpose.
   config.logits_via_embedding = False
