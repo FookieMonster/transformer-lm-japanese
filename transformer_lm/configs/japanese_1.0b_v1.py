@@ -40,10 +40,10 @@ def get_config():
   config.eval_split = "validation"
 
   # Per device batch size for training.
-  config.per_device_batch_size = 32
+  config.per_device_batch_size = 16
 
   # Per device batch size for training.
-  config.eval_per_device_batch_size = 32
+  config.eval_per_device_batch_size = 16
 
   # Sampling temperature for language model inference.
   config.sampling_temperature = 0.6
@@ -73,7 +73,7 @@ def get_config():
   config.weight_decay = 0.1
 
   # Maximum length cutoff for training examples.
-  config.max_target_length = 256
+  config.max_target_length = 512
   # Maximum length cutoff for eval examples.
   config.max_eval_target_length = 512
   # Maximum length cutoff for predicted tokens.
