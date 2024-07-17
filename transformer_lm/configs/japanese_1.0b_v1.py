@@ -73,9 +73,9 @@ def get_config():
   config.weight_decay = 0.1
 
   # Maximum length cutoff for training examples.
-  config.max_target_length = 512
+  config.max_target_length = 1024
   # Maximum length cutoff for eval examples.
-  config.max_eval_target_length = 512
+  config.max_eval_target_length = 1024
   # Maximum length cutoff for predicted tokens.
   config.max_predict_length = 50
 
